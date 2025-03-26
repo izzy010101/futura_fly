@@ -2,21 +2,16 @@
 import { Head, Link, router } from '@inertiajs/vue3'
 import { reactive } from 'vue'
 import Footer from '@/Components/Footer.vue'
+import { ref } from 'vue'
+
+const mobileMenuOpen = ref(false)
 
 const props = defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
-    flights: {
-        type: Array,
-        default: () => [],
-    },
-    filters: {
-        type: Object,
-        default: () => ({ departure: '', destination: '' }),
-    },
+    flights: { type: Array, default: () => [] },
+    filters: { type: Object, default: () => ({departure: '', destination: ''}) },
 })
-
-console.log('Flights from server:', props.flights);
 
 const search = reactive({
     departure: props.filters.departure,
@@ -42,74 +37,103 @@ function clearSearch() {
 
 <template>
     <Head title="Home"/>
-    <div class="bg-white min-h-screen text-black dark:bg-black dark:text-white">
-        <!-- Hero Header with Background -->
-        <div
-            class="h-[300px] bg-cover bg-center flex flex-col justify-between"
-            style="background-image: url('/images/airplane_header.jpg')"
-        >
-            <!-- Top Nav -->
-            <div class="flex justify-end p-6 gap-4 text-white bg-black/30">
-                <Link
-                    v-if="canLogin"
-                    :href="route('login')"
-                    class="hover:underline font-semibold"
-                >Log In
+    <div class="min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <!-- Logo -->
+                <Link href="/" class="text-2xl font-bold text-[#002642] flex items-center">
+                    FuturaFly
                 </Link>
-                <Link
-                    v-if="canRegister"
-                    :href="route('register')"
-                    class="hover:underline font-semibold"
-                >Register
-                </Link>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <Link href="/" class="text-[#002642] hover:text-[#22668D]">Home</Link>
+                    <Link href="#" class="text-[#002642] hover:text-[#22668D]">Explore</Link>
+                    <Link href="#" class="text-[#002642] hover:text-[#22668D]">Book</Link>
+                    <Link href="#" class="text-[#002642] hover:text-[#22668D]">Privilege Club</Link>
+                </nav>
+
+                <!-- Desktop Auth -->
+                <div class="hidden md:flex space-x-4">
+                    <Link v-if="canLogin" :href="route('login')" class="text-[#002642]">Login</Link>
+                    <Link v-if="canRegister" :href="route('register')" class="bg-[#22668D] text-white px-4 py-2 rounded">Register</Link>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-[#002642]">
+                    <svg v-if="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
 
-            <!-- Centered Title -->
-            <div class="text-center text-white mb-8">
-                <h1 class="text-4xl font-bold">Welcome to FuturaFly</h1>
-                <p class="text-lg mt-2">Book your next adventure effortlessly</p>
-            </div>
-        </div>
+            <!-- Mobile Navigation -->
+            <nav v-if="mobileMenuOpen" class="md:hidden bg-white border-t border-gray-200 px-4 py-4 space-y-3">
+                <Link href="/" class="block text-[#002642] hover:text-[#22668D]">Home</Link>
+                <Link href="#" class="block text-[#002642] hover:text-[#22668D]">Explore</Link>
+                <Link href="#" class="block text-[#002642] hover:text-[#22668D]">Book</Link>
+                <Link href="#" class="block text-[#002642] hover:text-[#22668D]">Privilege Club</Link>
 
-        <!-- Content Section -->
-        <div class="max-w-6xl mx-auto p-6">
-            <!-- Flight Search -->
-            <div class="mb-8">
-                <h2 class="text-xl font-bold mb-4">Search Flights</h2>
-                <form @submit.prevent="searchFlights" class="flex flex-wrap gap-4">
+                <div class="border-t border-gray-200 pt-3 space-x-4">
+                    <Link v-if="canLogin" :href="route('login')" class="text-[#002642]">Login</Link>
+                    <Link v-if="canRegister" :href="route('register')" class="bg-[#22668D] text-white px-4 py-2 rounded">Register</Link>
+                </div>
+            </nav>
+        </header>
+
+
+        <!-- Hero Section with search -->
+        <section class="relative bg-gradient-to-r from-[#22668D] to-[#419197] py-20">
+            <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/images/airplane_header.jpg');"></div>
+
+            <div class="container mx-auto px-6 relative z-10 text-center text-white">
+                <h1 class="text-4xl font-bold mb-4">Welcome to FuturaFly</h1>
+                <p class="text-lg mb-8">Book your next adventure effortlessly</p>
+
+                <!-- Your existing search logic/form -->
+                <form @submit.prevent="searchFlights" class="max-w-4xl mx-auto bg-white rounded-lg shadow p-6 flex flex-wrap gap-4 justify-center">
                     <input
                         v-model="search.departure"
                         placeholder="From"
-                        class="border px-3 py-2 rounded w-full md:w-1/3"
+                        class="border px-4 py-2 rounded w-full md:w-1/4 text-gray-800 placeholder-gray-400"
                     />
+
                     <input
                         v-model="search.destination"
                         placeholder="To"
-                        class="border px-3 py-2 rounded w-full md:w-1/3"
+                        class="border px-4 py-2 rounded w-full md:w-1/4 text-gray-800 placeholder-gray-400"
                     />
                     <button
                         type="submit"
-                        class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700"
+                        class="bg-[#22668D] text-white px-5 py-2 rounded hover:bg-[#419197]"
                     >
-                        Search
+                        Search Flights
                     </button>
                     <button
                         type="button"
-                        class="bg-gray-300 text-black px-5 py-2 rounded hover:bg-gray-400"
+                        class="bg-gray-200 text-[#002642] px-5 py-2 rounded hover:bg-gray-300"
                         @click="clearSearch"
                     >
                         Clear
                     </button>
                 </form>
             </div>
+        </section>
 
-            <!-- Flights -->
-            <h2 class="text-2xl font-bold mb-4">Available Flights</h2>
+        <!-- Flights List (unchanged, your existing logic) -->
+        <section class="max-w-6xl mx-auto p-6">
+            <h2 class="text-2xl font-bold mb-4 text-[#002642]">Available Flights</h2>
             <div v-if="flights.length" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div
                     v-for="flight in flights"
                     :key="flight.id"
-                    class="p-4 border border-gray-200 rounded shadow-sm bg-white dark:bg-gray-900"
+                    class="p-4 rounded shadow-sm bg-white border border-gray-200"
                 >
                     <p><strong>Airline:</strong> {{ flight.airline }}</p>
                     <p><strong>Flight #:</strong> {{ flight.flight_number }}</p>
@@ -119,21 +143,14 @@ function clearSearch() {
                     <p><strong>Seats Available:</strong> {{ flight.seats_available }}</p>
                     <p><strong>Price:</strong> ${{ flight.price }}</p>
 
-                    <!-- Deal Badges -->
                     <div class="mt-2">
-                        <span
-                            v-if="flight.last_minute"
-                            class="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded-full mr-2"
-                        >Last Minute Deal</span>
-                        <span
-                            v-if="flight.first_minute"
-                            class="inline-block bg-green-600 text-white text-xs px-2 py-1 rounded-full"
-                        >Early Bird</span>
+                        <span v-if="flight.last_minute" class="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded-full mr-2">Last Minute Deal</span>
+                        <span v-if="flight.first_minute" class="inline-block bg-green-600 text-white text-xs px-2 py-1 rounded-full">Early Bird</span>
                     </div>
                 </div>
             </div>
             <div v-else class="text-gray-500">No flights found. Try a different search.</div>
-        </div>
+        </section>
 
         <Footer/>
     </div>
