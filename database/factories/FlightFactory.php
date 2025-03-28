@@ -24,7 +24,6 @@ class FlightFactory extends Factory
         $arrivalTime = (clone $departureTime)->modify('+'.rand(2, 10).' hours');
 
         return [
-            'airline' => $this->faker->randomElement(['Air Futura', 'SkyJet', 'OceanAir', 'NovaWings']),
             'flight_number' => 'FF' . $this->faker->unique()->numberBetween(100, 999),
             'departure' => $departure,
             'destination' => $destination,

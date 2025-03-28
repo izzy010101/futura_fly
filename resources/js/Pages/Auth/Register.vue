@@ -11,7 +11,7 @@ const form = useForm({
     name: '',
     email: '',
     phone: '',
-    country: 'US', // Default
+    country: 'RS', // Default
     passport_number: '',
     password: '',
     password_confirmation: '',
@@ -75,59 +75,87 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
-
-            <div>
-                <InputLabel for="name" value="Name" />
-                <TextInput id="name" v-model="form.name" required autofocus autocomplete="name" />
-                <InputError :message="form.errors.name" />
+        <div class="grid grid-cols-1 lg:grid-cols-2 min-h-screen w-full bg-white">
+            <!-- Left Panel -->
+            <div class="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br from-[#002642] via-[#22668D] to-[#6EA8DA] text-white p-10">
+                <h1 class="text-4xl font-bold mb-4">Create Account</h1>
+                <p class="text-lg text-white/80 text-center max-w-xs">Join FuturaFly and start planning your journey with ease.</p>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput id="email" type="email" v-model="form.email" required autocomplete="email" />
-                <InputError :message="form.errors.email" />
-            </div>
+            <!-- Right Panel -->
+            <div class="flex flex-col justify-center p-8 sm:p-12 w-full max-w-2xl mx-auto">
+                <form @submit.prevent="submit" class="space-y-6">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-[#002642]">Register</h2>
+                        <p class="text-sm text-gray-500 mt-1">Fill in your details to get started.</p>
+                    </div>
 
-            <div class="mt-4">
-                <InputLabel for="country" value="Country" />
-                <select id="country" v-model="form.country" class="border-gray-300 rounded w-full">
-                    <option v-for="country in countries" :key="country.code" :value="country.code">
-                        {{ country.name }}
-                    </option>
-                </select>
-                <InputError :message="form.errors.country" />
-            </div>
+                    <div>
+                        <InputLabel for="name" value="Name" class="text-[#002642]" />
+                        <TextInput id="name" v-model="form.name" required autofocus autocomplete="name"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]" />
+                        <InputError :message="form.errors.name" class="mt-2" />
+                    </div>
 
-            <div class="mt-4">
-                <InputLabel for="phone" value="Phone Number" />
-                <TextInput id="phone" type="tel" v-model="form.phone" required autocomplete="tel" />
-                <InputError :message="form.errors.phone" />
-            </div>
+                    <div>
+                        <InputLabel for="email" value="Email" class="text-[#002642]" />
+                        <TextInput id="email" type="email" v-model="form.email" required autocomplete="email"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]" />
+                        <InputError :message="form.errors.email" class="mt-2" />
+                    </div>
 
-            <div class="mt-4">
-                <InputLabel for="passport_number" value="Passport Number" />
-                <TextInput id="passport_number" v-model="form.passport_number" required />
-                <InputError :message="form.errors.passport_number" />
-            </div>
+                    <div>
+                        <InputLabel for="country" value="Country" class="text-[#002642]" />
+                        <select id="country" v-model="form.country"
+                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]">
+                            <option v-for="country in countries" :key="country.code" :value="country.code">
+                                {{ country.name }}
+                            </option>
+                        </select>
+                        <InputError :message="form.errors.country" class="mt-2" />
+                    </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput id="password" type="password" v-model="form.password" required autocomplete="new-password" />
-                <InputError :message="form.errors.password" />
-            </div>
+                    <div>
+                        <InputLabel for="phone" value="Phone Number" class="text-[#002642]" />
+                        <TextInput id="phone" type="tel" v-model="form.phone" required autocomplete="tel"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]" />
+                        <InputError :message="form.errors.phone" class="mt-2" />
+                    </div>
 
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput id="password_confirmation" type="password" v-model="form.password_confirmation" required />
-                <InputError :message="form.errors.password_confirmation" />
-            </div>
+                    <div>
+                        <InputLabel for="passport_number" value="Passport Number" class="text-[#002642]" />
+                        <TextInput id="passport_number" v-model="form.passport_number" required
+                                   class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]" />
+                        <InputError :message="form.errors.passport_number" class="mt-2" />
+                    </div>
 
-            <div class="mt-4 flex justify-end">
-                <Link :href="route('login')" class="text-sm text-gray-600 underline">Already registered?</Link>
-                <PrimaryButton :disabled="form.processing" class="ml-4">Register</PrimaryButton>
-            </div>
+                    <div>
+                        <InputLabel for="password" value="Password" class="text-[#002642]" />
+                        <TextInput id="password" type="password" v-model="form.password" required autocomplete="new-password"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]" />
+                        <InputError :message="form.errors.password" class="mt-2" />
+                    </div>
 
-        </form>
+                    <div>
+                        <InputLabel for="password_confirmation" value="Confirm Password" class="text-[#002642]" />
+                        <TextInput id="password_confirmation" type="password" v-model="form.password_confirmation" required
+                                   class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]" />
+                        <InputError :message="form.errors.password_confirmation" class="mt-2" />
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <Link :href="route('login')" class="text-sm text-[#22668D] hover:underline">
+                            Already registered?
+                        </Link>
+
+                        <PrimaryButton :disabled="form.processing"
+                                       class="bg-[#22668D] hover:bg-[#002642] text-white font-semibold py-2 px-6 rounded-lg transition">
+                            Register
+                        </PrimaryButton>
+                    </div>
+                </form>
+            </div>
+        </div>
     </GuestLayout>
 </template>
+

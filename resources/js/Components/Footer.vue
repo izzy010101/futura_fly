@@ -1,7 +1,7 @@
 <!-- resources/js/Components/Footer.vue -->
 
 <template>
-    <footer class="bg-white dark:bg-gray-900">
+    <footer class="bg-gray-800 dark:bg-gray-900">
         <div class="mx-auto w-full ">
             <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
                 <div>
@@ -117,5 +117,5 @@ export default {
 </script>
 
 <style scoped>
-/* You can add custom styles for the footer if needed */
+
 </style>
