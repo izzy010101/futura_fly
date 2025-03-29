@@ -45,11 +45,21 @@ function searchFlights() {
 }
 
 function clearSearch() {
+    const hadSearch = search.departure || search.destination;
+
     search.departure = ''
     search.destination = ''
     validationErrors.departure = ''
     validationErrors.destination = ''
     wasSubmitted.value = false
+
+    if (hadSearch) {
+        router.get('/', {}, {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true, // Optional: updates URL without pushing new history
+        })
+    }
 }
 </script>
 
