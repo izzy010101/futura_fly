@@ -1,15 +1,23 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use Inertia\Inertia;
-
+use App\Models\User;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ProfileController;
 
-Route::get('/', [FlightController::class, 'index'])->name('home'); // ✅ Home page with search + flights
+Route::get('/', [FlightController::class, 'index'])->name('home');
+
+Route::post('/validate-email', function (\Illuminate\Http\Request $request) {
+    $exists = User::where('email', $request->email)->exists();
+    return response()->json(['exists' => $exists]);
+});
+
+Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
+    ->name('password.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

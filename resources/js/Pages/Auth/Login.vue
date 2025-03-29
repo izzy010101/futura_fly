@@ -1,33 +1,75 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import Checkbox from '@/Components/Checkbox.vue'
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import TextInput from '@/Components/TextInput.vue'
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import { ref, watch } from 'vue'
+import axios from 'axios'
+import debounce from 'lodash/debounce'
 
 defineProps({
-    canResetPassword: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
+    canResetPassword: Boolean,
+    status: String,
+})
 
+// Form data
 const form = useForm({
     email: '',
     password: '',
     remember: false,
-});
+})
 
+// Validation error state
+const validationErrors = ref({
+    email: '',
+    password: '',
+})
+
+// live validation
+
+watch(() => form.email, debounce(async (email) => {
+    validationErrors.value.email = ''
+
+    if (!email) {
+        validationErrors.value.email = 'Email is required.'
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        validationErrors.value.email = 'Please enter a valid email.'
+    } else {
+        try {
+            const res = await axios.post('/validate-email', { email })
+            if (!res.data.exists) {
+                validationErrors.value.email = 'Email not found.'
+            }
+        } catch (e) {
+            validationErrors.value.email = 'Server error while checking email.'
+        }
+    }
+}, 500)) // debounce to avoid spamming
+
+watch(() => form.password, (password) => {
+    validationErrors.value.password = ''
+    if (!password) {
+        validationErrors.value.password = 'Password is required.'
+    } else if (password.length < 6) {
+        validationErrors.value.password = 'Password must be at least 6 characters.'
+    }
+})
+
+// === Submit ===
 const submit = () => {
+    form.clearErrors()
+
+    if (validationErrors.value.email || validationErrors.value.password) return
+
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
-    });
-};
+    })
+}
 </script>
+
 
 <template>
     <GuestLayout>
@@ -52,16 +94,19 @@ const submit = () => {
                         <InputLabel for="email" value="Email" class="text-[#002642]" />
 
                         <TextInput
-                            id="email"
-                            type="email"
-                            class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]"
                             v-model="form.email"
-                            required
-                            autofocus
+                            type="email"
+                            id="email"
                             autocomplete="username"
+                            :class="[
+                                'mt-1 block w-full rounded-lg transition',
+                                validationErrors.email
+                                  ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                  : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+                              ]"
                         />
+                        <InputError :message="validationErrors.email" />
 
-                        <InputError class="mt-2" :message="form.errors.email" />
                     </div>
 
                     <div>
@@ -70,14 +115,20 @@ const submit = () => {
                         <TextInput
                             id="password"
                             type="password"
-                            class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]"
                             v-model="form.password"
-                            required
                             autocomplete="current-password"
+                            autofocus
+                            :class="[
+            'mt-1 block w-full rounded-lg transition',
+            validationErrors.password
+              ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+              : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+        ]"
                         />
 
-                        <InputError class="mt-2" :message="form.errors.password" />
+                        <InputError class="mt-2" :message="validationErrors.password" />
                     </div>
+
 
                     <div class="flex items-center justify-between text-sm">
                         <label class="flex items-center">
