@@ -1,3 +1,4 @@
+<!--home.vue-->
 <script setup>
 import { Head, router } from '@inertiajs/vue3'
 import { reactive, ref } from 'vue'

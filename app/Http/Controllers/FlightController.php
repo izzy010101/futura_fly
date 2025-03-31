@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 class FlightController extends Controller
 {
+    // home page logic search
     public function index(Request $request)
     {
         $query = Flight::query();
@@ -27,13 +28,21 @@ class FlightController extends Controller
 
         return Inertia::render('Home', [
             'flights' => $flights,
-            'canLogin' => \Route::has('login'),
-            'canRegister' => \Route::has('register'),
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
             'filters' => $request->only(['departure', 'destination']),
         ]);
     }
 
+    // explore page available flights
+    public function explore()
+    {
+        $flights = Flight::orderBy('departure_time')->get();
 
-
-
+        return Inertia::render('Explore', [
+            'flights' => $flights,
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+        ]);
+    }
 }

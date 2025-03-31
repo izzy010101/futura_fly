@@ -1,5 +1,5 @@
 <template>
-    <header class="bg-white shadow-md">
+    <header class="sticky top-0 z-50 bg-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <!-- Left: Logo -->
             <Link href="/" class="text-2xl font-bold text-[#002642] flex-shrink-0">
@@ -10,7 +10,7 @@
             <!-- Center: Navigation -->
             <nav class="hidden md:flex space-x-6 flex-grow justify-center">
                 <Link href="/" class="text-[#002642] hover:text-[#22668D]">Home</Link>
-                <Link href="#" class="text-[#002642] hover:text-[#22668D]">Explore</Link>
+                <Link href="/explore" class="text-[#002642] hover:text-[#22668D]">Explore</Link>
                 <Link href="#" class="text-[#002642] hover:text-[#22668D]">Book</Link>
                 <Link href="#" class="text-[#002642] hover:text-[#22668D]">Privilege Club</Link>
             </nav>

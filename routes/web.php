@@ -10,6 +10,9 @@ use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [FlightController::class, 'index'])->name('home');
+Route::get('/explore', [FlightController::class, 'explore'])->name('explore');
+
+
 
 Route::post('/validate-email', function (\Illuminate\Http\Request $request) {
     $exists = User::where('email', $request->email)->exists();
@@ -23,9 +26,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/explore', function () {
-    return Inertia::render('Explore');
-})->name('explore');
+//Route::get('/explore', function () {
+//    return Inertia::render('Explore');
+//})->name('explore');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
