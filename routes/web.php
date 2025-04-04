@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\OffersController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,10 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [FlightController::class, 'index'])->name('home');
 Route::get('/explore', [FlightController::class, 'explore'])->name('explore');
+
+//static pages from home page
+
+Route::get('/offers', [OffersController::class, 'index'])->name('offers');
 
 
 

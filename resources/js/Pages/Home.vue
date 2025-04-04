@@ -5,6 +5,8 @@ import { reactive, ref } from 'vue'
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
 import { MapPinIcon } from '@heroicons/vue/24/solid'
+import { Link } from '@inertiajs/vue3'
+import FlightCard from '@/Components/FlightCard.vue'
 
 const props = defineProps({
     canLogin: Boolean,
@@ -133,25 +135,22 @@ function clearSearch() {
             </form>
         </section>
 
+
         <!-- Matching Flights -->
-        <section v-if="search.departure || search.destination" class="max-w-6xl mx-auto p-6 mt-8">
-            <h2 class="text-2xl font-bold mb-4 text-[#002642]">Matching Flights</h2>
-            <div v-if="flights.length" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div
-                    v-for="flight in flights"
-                    :key="flight.id"
-                    class="p-4 rounded shadow-sm bg-white border border-gray-200"
-                >
-                    <p><strong>Flight #:</strong> {{ flight.flight_number }}</p>
-                    <p><strong>From:</strong> {{ flight.departure }} → {{ flight.destination }}</p>
-                    <p><strong>Departs:</strong> {{ new Date(flight.departure_time).toLocaleString() }}</p>
-                    <p><strong>Arrives:</strong> {{ new Date(flight.arrival_time).toLocaleString() }}</p>
-                    <p><strong>Seats Available:</strong> {{ flight.seats_available }}</p>
-                    <p><strong>Price:</strong> ${{ flight.price }}</p>
-                </div>
+        <section v-if="search.departure || search.destination" class="max-w-7xl mx-auto p-6 mt-8">
+            <h2 class="text-2xl font-bold mb-6 text-[#002642]">Matching Flights</h2>
+
+            <div v-if="flights.length" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FlightCard v-for="flight in flights" :key="flight.id" :flight="flight" />
             </div>
+
             <div v-else class="text-gray-500">No matching flights found.</div>
         </section>
+
+
+
+
+
 
 
         <!-- cards section -->
@@ -164,6 +163,7 @@ function clearSearch() {
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- Card 1 -->
+                    <Link href="/offers" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
                         <img src="/images/offer1.jpg" alt="Offers" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="p-4">
@@ -176,6 +176,7 @@ function clearSearch() {
                             </p>
                         </div>
                     </div>
+                    </Link>
 
                     <!-- Card 2 -->
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">

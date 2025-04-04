@@ -1,3 +1,15 @@
+<script setup>
+import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
+
+defineProps({
+    canLogin: Boolean,
+    canRegister: Boolean
+})
+
+const mobileMenuOpen = ref(false)
+</script>
+
 <template>
     <header class="sticky top-0 z-50 bg-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -57,14 +69,4 @@
     </header>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { Link } from '@inertiajs/vue3'
 
-defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean
-})
-
-const mobileMenuOpen = ref(false)
-</script>
