@@ -1,51 +1,47 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
+import FlightCard from '@/Components/FlightCard.vue'
 
 const props = defineProps({
     flights: { type: Array, default: () => [] },
     canLogin: Boolean,
     canRegister: Boolean,
+    canBook: Boolean,
 })
 </script>
 
 <template>
     <Head title="Explore Flights" />
-    <div class="min-h-screen bg-gray-50">
-        <!-- Header with Login/Register to the left -->
+    <div class="min-h-screen bg-gray-50 flex flex-col">
+        <!-- Header -->
         <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
 
-        <!-- Flights Section (Stylish Cards) -->
-        <section class="max-w-7xl mx-auto px-4 py-10">
-            <h2 class="text-3xl font-bold text-[#002642] mb-6 text-center">Available Flights</h2>
+        <!-- Hero Section -->
+        <section class="relative h-[60vh] bg-cover bg-center flex items-center justify-center text-white"
+                 style="background-image: url('/images/explore.jpg')">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="relative z-10 text-center px-4 max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Discover Your Next Journey</h1>
+                <p class="text-lg text-white/80">Browse all available flights and find your perfect getaway with FuturaFly.</p>
+            </div>
+        </section>
+
+        <!-- Flights Section -->
+        <section class="flex-1 max-w-7xl mx-auto px-4 py-12">
+            <h2 class="text-3xl font-bold text-[#002642] mb-8 text-center">Available Flights</h2>
 
             <div v-if="flights.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div v-for="flight in flights" :key="flight.id"
-                     class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow">
-                    <div class="px-6 py-4">
-                        <h3 class="text-xl font-semibold text-[#002642] mb-2">
-                            {{ flight.departure }} → {{ flight.destination }}
-                        </h3>
-                        <p class="text-gray-600 mb-2">
-                            <strong>Departs:</strong> {{ new Date(flight.departure_time).toLocaleString() }}
-                        </p>
-                        <p class="text-gray-600 mb-2">
-                            <strong>Arrives:</strong> {{ new Date(flight.arrival_time).toLocaleString() }}
-                        </p>
-                        <p class="text-gray-600 mb-2">
-                            <strong>Seats:</strong> {{ flight.seats_available }}
-                        </p>
-                        <p class="text-[#22668D] font-bold text-lg">
-                            ${{ flight.price }}
-                        </p>
+                <div
+                    v-for="flight in flights"
+                    :key="flight.id"
+                    class="flex flex-col h-full"
+                >
+                    <div class="flex-1 flex">
+                        <!-- Use min-h-full + w-full to stretch all FlightCards equally -->
+                        <FlightCard :flight="flight" class="w-full min-h-full" :can-book="canBook" />
 
-                        <div class="mt-4 flex space-x-2">
-                            <span v-if="flight.last_minute"
-                                  class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">Last Minute</span>
-                            <span v-if="flight.first_minute"
-                                  class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">Early Bird</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -55,6 +51,7 @@ const props = defineProps({
             </div>
         </section>
 
-        <Footer/>
+        <!-- Footer -->
+        <Footer />
     </div>
 </template>

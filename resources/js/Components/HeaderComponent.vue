@@ -23,7 +23,7 @@ const mobileMenuOpen = ref(false)
             <nav class="hidden md:flex space-x-6 flex-grow justify-center">
                 <Link href="/" class="text-[#002642] hover:text-[#22668D]">Home</Link>
                 <Link href="/explore" class="text-[#002642] hover:text-[#22668D]">Explore</Link>
-                <Link href="#" class="text-[#002642] hover:text-[#22668D]">Book</Link>
+                <Link href="/destinations" class="text-[#002642] hover:text-[#22668D]">Destinations</Link>
                 <Link href="#" class="text-[#002642] hover:text-[#22668D]">Privilege Club</Link>
             </nav>
 

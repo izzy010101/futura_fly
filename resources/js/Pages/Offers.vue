@@ -1,7 +1,7 @@
 <script setup>
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import { ref } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import {Head, Link} from '@inertiajs/vue3'
 import { ClockIcon, FireIcon } from '@heroicons/vue/24/solid'
 import Footer from '@/Components/Footer.vue'
 
@@ -17,6 +17,7 @@ const mobileMenuOpen = ref(false)
 
 <template>
     <div class="bg-gray-50 min-h-screen">
+        <Head title="Offers" />
         <!-- Header -->
         <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
 

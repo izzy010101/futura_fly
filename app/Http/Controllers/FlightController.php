@@ -31,6 +31,7 @@ class FlightController extends Controller
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'filters' => $request->only(['departure', 'destination']),
+            'canBook' => auth()->check(),
         ]);
     }
 
@@ -43,6 +44,7 @@ class FlightController extends Controller
             'flights' => $flights,
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
+            'canBook' => auth()->check(),
         ]);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\OffersController;
+use App\Http\Controllers\PageController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +19,60 @@ Route::get('/explore', [FlightController::class, 'explore'])->name('explore');
 
 Route::get('/offers', [OffersController::class, 'index'])->name('offers');
 
+Route::get('/stopover', function () {
+    return Inertia::render('Stopover', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('stopover');
+
+//spring offers 12% discount
+Route::get('/springoffers', [OffersController::class, 'spring'])->name('springoffers');
+
+//adds on
+Route::get('/addons', function () {
+    return Inertia::render('AddOns', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('addons');
+
+// Destination: New York
+Route::get('/destinations/new-york', function () {
+    return Inertia::render('Destinations/NewYork', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('destinations.newyork');
+
+// Destination: Berlin
+Route::get('/destinations/berlin', function () {
+    return Inertia::render('Destinations/Berlin', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('destinations.berlin');
+
+Route::get('/destinations/tokyo', function () {
+    return Inertia::render('Destinations/Tokyo', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+})->name('destinations.tokyo');
+
+Route::get('/destinations', [PageController::class, 'destinations'])->name('destinations');
+
+
+
+//newsletter footer
+Route::post('/subscribe', [NewsletterController::class, 'subscribe']);
+
+
+//contact, faq, policies and travelalerts pages in footer
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::get('/faq', [PageController::class, 'faq'])->name('faq');
+Route::get('/alerts', [PageController::class, 'alerts'])->name('alerts');
+Route::get('/policies', [PageController::class, 'policies'])->name('policies');
 
 
 Route::post('/validate-email', function (\Illuminate\Http\Request $request) {
@@ -27,13 +83,17 @@ Route::post('/validate-email', function (\Illuminate\Http\Request $request) {
 Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
     ->name('password.store');
 
+
+//ovo videti da li ovde da ostavim
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'canBook' => auth()->check(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-//Route::get('/explore', function () {
-//    return Inertia::render('Explore');
-//})->name('explore');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

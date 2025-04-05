@@ -1,4 +1,4 @@
 <template>
-    <img src="/images/FuturaFly.png" alt="FuturaFly Logo" class="h-[300px] w-full object-contain" />
+    <a class="text-2xl font-bold text-[#002642] flex-shrink-0" href="#">FuturaFly</a>
 </template>
 

@@ -13,6 +13,7 @@ const props = defineProps({
     canRegister: Boolean,
     flights: { type: Array, default: () => [] },
     filters: { type: Object, default: () => ({ departure: '', destination: '' }) },
+    canBook: Boolean,
 })
 
 const search = reactive({
@@ -141,16 +142,11 @@ function clearSearch() {
             <h2 class="text-2xl font-bold mb-6 text-[#002642]">Matching Flights</h2>
 
             <div v-if="flights.length" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FlightCard v-for="flight in flights" :key="flight.id" :flight="flight" />
+                <FlightCard v-for="flight in flights" :key="flight.id" :flight="flight" :can-book="canBook" />
             </div>
 
             <div v-else class="text-gray-500">No matching flights found.</div>
         </section>
-
-
-
-
-
 
 
         <!-- cards section -->
@@ -179,6 +175,7 @@ function clearSearch() {
                     </Link>
 
                     <!-- Card 2 -->
+                    <Link href="/stopover" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
                         <img src="/images/stopover.jpg" alt="Stopover" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="p-4">
@@ -191,8 +188,10 @@ function clearSearch() {
                             </p>
                         </div>
                     </div>
+                    </Link>
 
                     <!-- Card 3 -->
+                    <Link href="/springoffers" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
                         <img src="/images/spring-offer.jpg" alt="Spring Offer" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="p-4">
@@ -205,8 +204,10 @@ function clearSearch() {
                             </p>
                         </div>
                     </div>
+                    </Link>
 
                     <!-- Card 4 -->
+                    <Link href="/addons" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
                         <img src="/images/first-class.jpg" alt="Experience" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="p-4">
@@ -219,10 +220,36 @@ function clearSearch() {
                             </p>
                         </div>
                     </div>
+                    </Link>
                 </div>
             </div>
         </section>
 
+        <!-- Popular Destinations Section -->
+        <section class="bg-white py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold text-[#002642] text-center mb-10">Popular Destinations</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- New York Card -->
+                    <Link href="/destinations/new-york" class="group block bg-gray-50 rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
+                        <img src="/images/newyork.jpg" alt="New York" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-[#002642] mb-2">New York</h3>
+                            <p class="text-gray-600">Experience the city that never sleeps. From Times Square to Central Park, New York has it all.</p>
+                        </div>
+                    </Link>
+
+                    <!-- Berlin Card -->
+                    <Link href="/destinations/berlin" class="group block bg-gray-50 rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
+                        <img src="/images/berlin.jpg" alt="Berlin" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-[#002642] mb-2">Berlin</h3>
+                            <p class="text-gray-600">A perfect blend of rich history and vibrant culture, Berlin is calling. Discover its charm today.</p>
+                        </div>
+                    </Link>
+                </div>
+            </div>
+        </section>
 
         <Footer />
     </div>

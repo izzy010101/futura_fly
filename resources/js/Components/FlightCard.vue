@@ -1,21 +1,57 @@
+<script setup>
+import { Link } from '@inertiajs/vue3'
+
+const props = defineProps({
+    flight: Object,
+    canBook: Boolean,
+})
+
+function formatDate(dateStr) {
+    return new Date(dateStr).toLocaleDateString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    })
+}
+
+function formatTime(dateStr) {
+    return new Date(dateStr).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+    })
+}
+
+function calculateDuration(start, end) {
+    const departure = new Date(start)
+    const arrival = new Date(end)
+
+    const diffMs = arrival - departure
+    const hours = Math.floor(diffMs / 1000 / 60 / 60)
+    const minutes = Math.floor((diffMs / 1000 / 60) % 60)
+
+    return `${hours}h ${minutes < 10 ? '0' + minutes : minutes}m`
+}
+</script>
 <template>
-    <div class="flight-card-container">
-        <div class="flight-card">
+    <div class="flight-card-container h-full flex flex-col">
+        <div class="flight-card flex flex-col flex-grow">
+            <!-- Header -->
             <div class="card-header">
                 <div class="flight-number">
-                    <span class="label">Flight</span>
+                    <span class="label mr-2">Flight</span>
                     <span class="value">{{ flight.flight_number }}</span>
                 </div>
                 <div class="airline-logo">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="plane-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" class="plane-icon">
                         <path
-                            d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z">
-                        </path>
+                            d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
                     </svg>
                 </div>
             </div>
 
+            <!-- Route Info -->
             <div class="route-info">
                 <div class="departure">
                     <div class="city">{{ flight.departure }}</div>
@@ -24,13 +60,12 @@
                 <div class="flight-path">
                     <div class="line"></div>
                     <div class="plane">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="small-plane">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                             fill="currentColor" class="small-plane">
                             <path
-                                d="M12 2c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 16.5c-3.6 0-6.5-2.9-6.5-6.5S8.4 5.5 12 5.5s6.5 2.9 6.5 6.5-2.9 6.5-6.5 6.5z">
-                            </path>
+                                d="M12 2c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 16.5c-3.6 0-6.5-2.9-6.5-6.5S8.4 5.5 12 5.5s6.5 2.9 6.5 6.5-2.9 6.5-6.5 6.5z" />
                             <path
-                                d="M12 7c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z">
-                            </path>
+                                d="M12 7c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" />
                         </svg>
                     </div>
                     <div class="line"></div>
@@ -41,13 +76,14 @@
                 </div>
             </div>
 
+            <!-- Time Info -->
             <div class="time-info">
                 <div class="departure-time">
                     <div class="time">{{ formatTime(flight.departure_time) }}</div>
                     <div class="date">{{ formatDate(flight.departure_time) }}</div>
                 </div>
                 <div class="flight-duration">
-                    <div class="duration">{{ flight.duration || '9h 00m' }}</div>
+                    <div class="duration">{{ calculateDuration(flight.departure_time, flight.arrival_time) }}</div>
                     <div class="direct">Direct</div>
                 </div>
                 <div class="arrival-time">
@@ -56,9 +92,11 @@
                 </div>
             </div>
 
-            <div class="card-footer">
+            <!-- Footer -->
+            <div class="card-footer mt-auto">
                 <div class="seats-available">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="seat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="seat-icon" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M6 17h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2Z" />
                         <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" />
                         <path d="M8 17v2" />
@@ -69,33 +107,31 @@
                 <div class="price-section">
                     <div class="price-label">Price</div>
                     <div class="price-value">${{ flight.price }}</div>
-                    <button class="select-button">Select</button>
+                    <button
+                        v-if="canBook"
+                        class="select-button"
+                    >
+                        Book
+                    </button>
+
+                    <!-- Guest: Link to login with same style -->
+                    <Link
+                        v-else
+                        href="/login"
+                        class="select-button opacity-50 cursor-not-allowed"
+                    >
+                        Login to Book
+                    </Link>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-const props = defineProps({
-    flight: Object
-})
-
-function formatDate(dateStr) {
-    return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
-}
-function formatTime(dateStr) {
-    return new Date(dateStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-}
-</script>
-
-
 <style scoped>
 .flight-card-container {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 1rem;
+    font-family: 'Inter', sans-serif;
+    height: 100%;
 }
 
 .flight-card {
@@ -104,6 +140,9 @@ function formatTime(dateStr) {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 1.5rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .flight-card:hover {
@@ -116,19 +155,13 @@ function formatTime(dateStr) {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
     border-bottom: 1px solid #f0f0f0;
-}
-
-.flight-number {
-    display: flex;
-    flex-direction: column;
+    padding-bottom: 1rem;
 }
 
 .flight-number .label {
     font-size: 0.75rem;
     color: #6b7280;
-    margin-bottom: 0.25rem;
 }
 
 .flight-number .value {
@@ -141,7 +174,7 @@ function formatTime(dateStr) {
     background-color: #2c6c8e;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 9999px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -160,22 +193,21 @@ function formatTime(dateStr) {
     margin-bottom: 1.5rem;
 }
 
-.departure, .arrival {
-    text-align: center;
+.departure,
+.arrival {
     flex: 1;
+    text-align: center;
 }
 
 .city {
     font-size: 1.125rem;
     font-weight: 600;
     color: #111827;
-    margin-bottom: 0.25rem;
 }
 
 .code {
     font-size: 0.875rem;
     color: #6b7280;
-    font-weight: 500;
 }
 
 .flight-path {
@@ -205,21 +237,22 @@ function formatTime(dateStr) {
 .time-info {
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid #f0f0f0;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #f0f0f0;
 }
 
-.departure-time, .arrival-time {
-    text-align: center;
+.departure-time,
+.arrival-time,
+.flight-duration {
     flex: 1;
+    text-align: center;
 }
 
 .time {
     font-size: 1rem;
     font-weight: 600;
     color: #111827;
-    margin-bottom: 0.25rem;
 }
 
 .date {
@@ -227,18 +260,10 @@ function formatTime(dateStr) {
     color: #6b7280;
 }
 
-.flight-duration {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-}
-
 .duration {
     font-size: 0.875rem;
     font-weight: 600;
     color: #111827;
-    margin-bottom: 0.25rem;
 }
 
 .direct {
@@ -247,12 +272,15 @@ function formatTime(dateStr) {
     background-color: #d1fae5;
     padding: 0.125rem 0.5rem;
     border-radius: 9999px;
+    display: inline-block;
+    margin-top: 0.25rem;
 }
 
 .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: auto;
 }
 
 .seats-available {
@@ -266,7 +294,6 @@ function formatTime(dateStr) {
     width: 18px;
     height: 18px;
     margin-right: 0.5rem;
-    color: #6b7280;
 }
 
 .price-section {
@@ -303,6 +330,7 @@ function formatTime(dateStr) {
     background-color: #235a78;
 }
 
+/* Responsive Tweaks */
 @media (max-width: 640px) {
     .time-info {
         flex-direction: column;
@@ -326,4 +354,3 @@ function formatTime(dateStr) {
     }
 }
 </style>
-
