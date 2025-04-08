@@ -7,6 +7,7 @@ import { CheckCircleIcon } from '@heroicons/vue/24/solid'
 
 
 defineProps({
+    auth: Object,
     canLogin: Boolean,
     canRegister: Boolean,
 })
@@ -17,7 +18,7 @@ const mobileMenuOpen = ref(false)
 <template>
     <Head title="Stopover" />
     <div class="bg-gray-50 min-h-screen">
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth"  :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero section -->
         <section class="relative">

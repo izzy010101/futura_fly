@@ -4,6 +4,7 @@ import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
 
 const props = defineProps({
+    auth: Object,
     canLogin: Boolean,
     canRegister: Boolean,
     flights: { type: Array, default: () => [] },
@@ -15,7 +16,7 @@ const props = defineProps({
 <template>
     <Head title="Destinations" />
     <div class="min-h-screen bg-gray-50 flex flex-col">
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero Section -->
         <section class="relative h-[60vh] bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('/images/destinations-hero.jpg')">

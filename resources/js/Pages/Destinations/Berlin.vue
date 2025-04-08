@@ -1,17 +1,19 @@
 <script setup>
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
-import { Link } from '@inertiajs/vue3'
+import {Head, Link} from '@inertiajs/vue3'
 
 defineProps({
+    auth: Object,
     canLogin: Boolean,
     canRegister: Boolean
 })
 </script>
 
 <template>
+    <Head title="Berlin - Destination" />
     <div class="bg-gray-50 min-h-screen">
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero -->
         <section class="relative">

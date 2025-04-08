@@ -9,6 +9,7 @@ import { Link } from '@inertiajs/vue3'
 import FlightCard from '@/Components/FlightCard.vue'
 
 const props = defineProps({
+    auth: Object,
     canLogin: Boolean,
     canRegister: Boolean,
     flights: { type: Array, default: () => [] },
@@ -70,7 +71,7 @@ function clearSearch() {
 <template>
     <Head title="Home" />
     <div class="min-h-screen flex flex-col bg-gray-50">
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero -->
         <section class="relative h-[85vh] bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('/images/airplane_header.jpg')">

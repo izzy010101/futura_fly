@@ -4,6 +4,7 @@ import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
 
 const props = defineProps({
+    auth: Object,
     flights: Array,
     canLogin: Boolean,
     canRegister: Boolean
@@ -14,7 +15,7 @@ const props = defineProps({
     <Head title="Book a Flight" />
 
     <div class="min-h-screen bg-gray-50">
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <section class="max-w-6xl mx-auto p-6">
             <h2 class="text-2xl font-bold mb-4 text-[#002642]">Available Flights</h2>

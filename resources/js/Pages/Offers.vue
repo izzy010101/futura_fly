@@ -6,6 +6,7 @@ import { ClockIcon, FireIcon } from '@heroicons/vue/24/solid'
 import Footer from '@/Components/Footer.vue'
 
 defineProps({
+    auth: Object,
     canLogin: Boolean,
     canRegister: Boolean,
     earlyBirds: Array,
@@ -19,7 +20,7 @@ const mobileMenuOpen = ref(false)
     <div class="bg-gray-50 min-h-screen">
         <Head title="Offers" />
         <!-- Header -->
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero / Intro -->
         <section class="text-center py-12 px-4 max-w-4xl mx-auto">

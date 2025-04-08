@@ -4,7 +4,11 @@ import { Link } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import {ref} from "vue";
+import { usePage } from '@inertiajs/vue3';
 
+const { props } = usePage();
+
+const auth = props.auth;
 const canLogin = Boolean(route().has('login'))
 const canRegister = Boolean(route().has('register'))
 
@@ -13,7 +17,7 @@ const canRegister = Boolean(route().has('register'))
 
 <template>
     <div class="min-h-screen w-full bg-gray-100 flex flex-col">
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <main class="flex-1">
             <slot />

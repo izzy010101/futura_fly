@@ -4,6 +4,7 @@ import {Head, Link} from '@inertiajs/vue3'
 import Footer from '@/Components/Footer.vue'
 
 defineProps({
+    auth: Object,
     canLogin: Boolean,
     canRegister: Boolean,
 })
@@ -12,7 +13,7 @@ defineProps({
 <template>
     <Head title="AddOns" />
     <div class="bg-gray-50 min-h-screen">
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero Section -->
         <section class="relative">

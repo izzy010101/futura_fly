@@ -5,6 +5,7 @@ import Footer from '@/Components/Footer.vue'
 import FlightCard from '@/Components/FlightCard.vue'
 
 const props = defineProps({
+    auth: Object,
     flights: { type: Array, default: () => [] },
     canLogin: Boolean,
     canRegister: Boolean,
@@ -16,7 +17,7 @@ const props = defineProps({
     <Head title="Explore Flights" />
     <div class="min-h-screen bg-gray-50 flex flex-col">
         <!-- Header -->
-        <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
+        <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero Section -->
         <section class="relative h-[60vh] bg-cover bg-center flex items-center justify-center text-white"

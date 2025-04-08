@@ -16,15 +16,25 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
             'email' => [
                 'required',
-                'string',
-                'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
+                Rule::unique('users')->ignore($this->user()->id),
             ],
+            'phone' => ['required', 'regex:/^\+?[0-9\s\-]{7,20}$/'],
+            'passport_number' => ['required', 'string', 'max:50'],
+            'country' => ['required', 'string', 'size:2'],
+            'password' => ['nullable', 'confirmed', 'min:6'],
+        ];
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            'phone.regex' => 'Please enter a valid phone number.',
         ];
     }
 }
