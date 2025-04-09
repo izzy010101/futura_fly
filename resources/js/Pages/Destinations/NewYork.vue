@@ -45,7 +45,12 @@ defineProps({
 
             <!-- Image -->
             <div>
-                <img src="/images/nyc-skyline.jpg" alt="NYC Skyline" class="rounded-xl shadow-lg w-full object-cover" />
+                <img
+                    src="/images/nyc-skyline.jpg"
+                    loading="lazy"
+                    alt="NYC Skyline"
+                    class="rounded-xl shadow-lg w-full object-cover aspect-[4/3]"
+                />
             </div>
         </section>
 

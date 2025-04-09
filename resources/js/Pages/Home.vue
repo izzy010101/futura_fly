@@ -162,7 +162,11 @@ function clearSearch() {
                     <!-- Card 1 -->
                     <Link href="/offers" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
-                        <img src="/images/offer1.jpg" alt="Offers" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <img src="/images/offer1.jpg"
+                             alt="Offers"
+                             loading="lazy"
+                             class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
                         <div class="p-4">
                             <h3 class="text-lg font-semibold text-gray-800">Explore our offers</h3>
                             <p class="mt-2 font-medium text-[#002642] flex items-center justify-between">
@@ -178,7 +182,12 @@ function clearSearch() {
                     <!-- Card 2 -->
                     <Link href="/stopover" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
-                        <img src="/images/stopover.jpg" alt="Stopover" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <img
+                            src="/images/stopover.jpg"
+                            loading="lazy"
+                            alt="Stopover"
+                            class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
                         <div class="p-4">
                             <h3 class="text-lg font-semibold text-gray-800">Stopover in Qatar from $14 pp</h3>
                             <p class="mt-2 font-medium text-[#002642] flex items-center justify-between">
@@ -194,7 +203,12 @@ function clearSearch() {
                     <!-- Card 3 -->
                     <Link href="/springoffers" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
-                        <img src="/images/spring-offer.jpg" alt="Spring Offer" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <img
+                            src="/images/spring-offer.jpg"
+                            loading="lazy"
+                            alt="Spring Offer"
+                            class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
                         <div class="p-4">
                             <h3 class="text-lg font-semibold text-gray-800">Up to 12% off Spring flights</h3>
                             <p class="mt-2 font-medium text-[#002642] flex items-center justify-between">
@@ -210,7 +224,12 @@ function clearSearch() {
                     <!-- Card 4 -->
                     <Link href="/addons" class="block">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group">
-                        <img src="/images/first-class.jpg" alt="Experience" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <img
+                            src="/images/first-class.jpg"
+                            loading="lazy"
+                            alt="Experience"
+                            class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
                         <div class="p-4">
                             <h3 class="text-lg font-semibold text-gray-800">Elevate your experience</h3>
                             <p class="mt-2 font-medium text-[#002642] flex items-center justify-between">
@@ -233,7 +252,12 @@ function clearSearch() {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- New York Card -->
                     <Link href="/destinations/new-york" class="group block bg-gray-50 rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
-                        <img src="/images/newyork.jpg" alt="New York" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <img
+                            src="/images/newyork.jpg"
+                            loading="lazy"
+                            alt="New York"
+                            class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
                         <div class="p-6">
                             <h3 class="text-2xl font-semibold text-[#002642] mb-2">New York</h3>
                             <p class="text-gray-600">Experience the city that never sleeps. From Times Square to Central Park, New York has it all.</p>
@@ -242,7 +266,12 @@ function clearSearch() {
 
                     <!-- Berlin Card -->
                     <Link href="/destinations/berlin" class="group block bg-gray-50 rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
-                        <img src="/images/berlin.jpg" alt="Berlin" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <img
+                            src="/images/berlin.jpg"
+                            loading="lazy"
+                            alt="Berlin"
+                            class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
                         <div class="p-6">
                             <h3 class="text-2xl font-semibold text-[#002642] mb-2">Berlin</h3>
                             <p class="text-gray-600">A perfect blend of rich history and vibrant culture, Berlin is calling. Discover its charm today.</p>

@@ -13,6 +13,18 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ImageUploadController;
+
+
+//image setup
+
+Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('image.upload');
+
+Route::get('/upload-image-form', function () {
+    return Inertia::render('UploadImage');
+});
+
+
 
 Route::get('/', [FlightController::class, 'index'])->name('home');
 Route::get('/explore', [FlightController::class, 'explore'])->name('explore');

@@ -65,7 +65,11 @@ const mobileMenuOpen = ref(false)
 
             <!-- Side Image -->
             <div>
-                <img src="/images/doha-city.jpg" alt="Doha City" class="rounded-xl shadow-lg w-full h-auto object-cover" />
+                <img
+                    src="/images/doha-city.jpg"
+                    loading="lazy"
+                    alt="Doha City" class="rounded-xl shadow-lg w-full h-auto object-cover"
+                />
             </div>
         </section>
 
