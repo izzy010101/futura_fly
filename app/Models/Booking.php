@@ -18,6 +18,7 @@ class Booking extends Model
         'kids',
         'total_price',
         'status',
+        'addons',
     ];
 
     public function user(): BelongsTo
@@ -34,4 +35,10 @@ class Booking extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    public function addons()
+    {
+        return $this->belongsToMany(Addon::class, 'addon_booking');
+    }
+
 }
