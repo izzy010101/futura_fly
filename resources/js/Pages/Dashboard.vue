@@ -16,7 +16,6 @@ const bookings = page.props.bookings || []
     <HeaderComponent :auth="auth"/>
 
     <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Weather Card -->
         <div class="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6">
             <div class="flex items-center gap-2 mb-4">
                 <SunIcon class="w-6 h-6 text-yellow-500"/>
@@ -37,4 +36,5 @@ const bookings = page.props.bookings || []
 
     <Footer/>
 </template>
+
 
