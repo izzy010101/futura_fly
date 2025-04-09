@@ -53,7 +53,7 @@ const rotateWeather = async () => {
 
 onMounted(() => {
     rotateWeather()
-    setInterval(rotateWeather, 10000) // every 10 seconds
+    setInterval(rotateWeather, 10000) // every 10 seconds, mozda da stavim ovde pola minuta hmm
 })
 </script>
 
