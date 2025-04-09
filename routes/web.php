@@ -99,9 +99,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/booking', function () {
+        return Inertia::render('Booking/Index');
+    })->name('booking.index');
 });
 
-Route::get('/book-flight', fn () => Inertia::render('BookFlight'))->name('book');
+
 Route::get('/checkout', fn () => Inertia::render('Checkout'))->name('checkout');
 
 

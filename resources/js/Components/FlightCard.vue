@@ -114,10 +114,10 @@ function calculateDuration(start, end) {
 
                     <Link
                         v-if="canBook"
-                        href="/book"
-                    class="select-button"
+                        :href="route('booking.index')"
+                        class="select-button"
                     >
-                    Book
+                        Book
                     </Link>
 
                     <!-- Guest: Link to login with same style -->
