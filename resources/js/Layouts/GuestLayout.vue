@@ -5,6 +5,9 @@ import Footer from '@/Components/Footer.vue';
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import {ref} from "vue";
 import { usePage } from '@inertiajs/vue3';
+import DarkMode from '@/Composables/useDarkMode.js'
+
+const { isDark } = DarkMode
 
 const { props } = usePage();
 
@@ -16,7 +19,7 @@ const canRegister = Boolean(route().has('register'))
 </script>
 
 <template>
-    <div class="min-h-screen w-full bg-gray-100 flex flex-col">
+    <div :class="{ dark: isDark }" class="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white">
         <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <main class="flex-1">

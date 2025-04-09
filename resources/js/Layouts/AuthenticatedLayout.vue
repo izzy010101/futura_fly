@@ -2,6 +2,9 @@
 import { usePage } from '@inertiajs/vue3'
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
+import DarkMode from '@/Composables/useDarkMode.js'
+
+const { isDark } = DarkMode
 
 const page = usePage()
 const auth = page.props.auth
@@ -10,8 +13,8 @@ const canRegister = page.props.canRegister
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100 flex flex-col">
-        <!-- ✅ Global Header (my header component with dropdowns) -->
+    <div :class="{ dark: isDark }" class="min-h-screen bg-gray-100 dark:bg-gray-900 ">
+        <!--  Global Header (my header component with dropdowns) -->
         <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
 

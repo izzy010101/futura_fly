@@ -33,11 +33,13 @@ function calculateDuration(start, end) {
 }
 </script>
 <template>
-    <div class="flight-card-container h-full flex flex-col">
-        <div class="flight-card flex flex-col flex-grow">
-            <!-- Header -->
-            <div class="card-header">
-                <div class="flight-number">
+    <div class="flight-card-container h-full flex flex-col text-gray-900 dark:text-gray-100">
+        <div class="flight-card bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 transition transform hover:-translate-y-1 hover:shadow-xl flex flex-col h-full">
+
+        <!-- Header -->
+        <div class="card-header bg-white dark:bg-gray-800 text-[#002642] dark:text-white rounded-lg shadow-md p-6">
+
+        <div class="flight-number">
                     <span class="label mr-2">Flight</span>
                     <span class="value">{{ flight.flight_number }}</span>
                 </div>
@@ -54,8 +56,10 @@ function calculateDuration(start, end) {
             <!-- Route Info -->
             <div class="route-info">
                 <div class="departure">
-                    <div class="city">{{ flight.departure }}</div>
-                    <div class="code">{{ flight.departure_airport || 'CDG' }}</div>
+                    <div class="city text-gray-900 dark:text-gray-100 font-semibold">{{ flight.departure }}</div>
+
+                    <div class="code text-gray-500 dark:text-gray-400 text-sm">{{ flight.departure_airport }}</div>
+
                 </div>
                 <div class="flight-path">
                     <div class="line"></div>
@@ -106,7 +110,8 @@ function calculateDuration(start, end) {
                 </div>
                 <div class="price-section">
                     <div class="price-label">Price</div>
-                    <div class="price-value">${{ flight.price }}</div>
+                    <div class="price-value text-gray-900 dark:text-gray-100 font-bold text-lg">${{ flight.price }}</div>
+
                     <button
                         v-if="canBook"
                         class="select-button"
@@ -135,9 +140,7 @@ function calculateDuration(start, end) {
 }
 
 .flight-card {
-    background-color: white;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 1.5rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
@@ -161,13 +164,11 @@ function calculateDuration(start, end) {
 
 .flight-number .label {
     font-size: 0.75rem;
-    color: #6b7280;
 }
 
 .flight-number .value {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #111827;
 }
 
 .airline-logo {
@@ -202,12 +203,10 @@ function calculateDuration(start, end) {
 .city {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #111827;
 }
 
 .code {
     font-size: 0.875rem;
-    color: #6b7280;
 }
 
 .flight-path {
@@ -237,7 +236,6 @@ function calculateDuration(start, end) {
 .time-info {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #f0f0f0;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
 }
@@ -252,13 +250,13 @@ function calculateDuration(start, end) {
 .time {
     font-size: 1rem;
     font-weight: 600;
-    color: #111827;
 }
 
 .date {
     font-size: 0.75rem;
-    color: #6b7280;
 }
+
+
 
 .duration {
     font-size: 0.875rem;
@@ -310,7 +308,6 @@ function calculateDuration(start, end) {
 .price-value {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #111827;
     margin-right: 1rem;
 }
 

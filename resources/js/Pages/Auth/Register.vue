@@ -193,7 +193,10 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
         <div class="grid grid-cols-1 lg:grid-cols-2 min-h-screen w-full bg-white">
-            <div class="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br from-[#002642] via-[#22668D] to-[#6EA8DA] text-white p-10">
+            <div class="hidden lg:flex flex-col justify-center items-center p-10
+            text-white
+            bg-gradient-to-br from-[#002642] via-[#22668D] to-[#6EA8DA]
+            dark:from-[#001c30] dark:via-[#17496c] dark:to-[#345d80]">
                 <h1 class="text-4xl font-bold mb-4">Create Account</h1>
                 <p class="text-lg text-white/80 text-center max-w-xs">Join FuturaFly and start planning your journey with ease.</p>
             </div>
@@ -210,9 +213,11 @@ const submit = () => {
                         <TextInput
                             id="name"
                             v-model="form.name"
+                            class="mt-1 block w-full rounded-lg transition text-gray-900 bg-white"
                             :class="[
-                                'mt-1 block w-full rounded-lg transition',
-                                validationErrors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+                                validationErrors.name
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
                             ]"
                         />
                         <InputError :message="validationErrors.name || form.errors.name" class="mt-2" />
@@ -224,9 +229,11 @@ const submit = () => {
                             id="email"
                             type="email"
                             v-model="form.email"
+                            class="mt-1 block w-full rounded-lg transition text-gray-900 bg-white"
                             :class="[
-                                'mt-1 block w-full rounded-lg transition',
-                                validationErrors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+                                validationErrors.email
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
                             ]"
                         />
                         <InputError :message="validationErrors.email || form.errors.email" class="mt-2" />
@@ -237,9 +244,10 @@ const submit = () => {
                         <select
                             id="country"
                             v-model="form.country"
-                            class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]"
+                            class="mt-1 block w-full rounded-lg border-gray-300 focus:border-[#22668D] focus:ring-[#22668D] text-gray-900 bg-white"
                         >
-                            <option v-for="country in countries" :key="country.code" :value="country.code">
+
+                        <option v-for="country in countries" :key="country.code" :value="country.code">
                                 {{ country.name }}
                             </option>
                         </select>
@@ -252,9 +260,11 @@ const submit = () => {
                             id="phone"
                             type="tel"
                             v-model="form.phone"
+                            class="mt-1 block w-full rounded-lg transition text-gray-900 bg-white"
                             :class="[
-                                'mt-1 block w-full rounded-lg transition',
-                                validationErrors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+                                validationErrors.phone
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
                             ]"
                         />
                         <InputError :message="validationErrors.phone || form.errors.phone" class="mt-2" />
@@ -265,11 +275,14 @@ const submit = () => {
                         <TextInput
                             id="passport_number"
                             v-model="form.passport_number"
+                            class="mt-1 block w-full rounded-lg transition text-gray-900 bg-white"
                             :class="[
-                                'mt-1 block w-full rounded-lg transition',
-                                validationErrors.passport_number ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+                                validationErrors.passport_number
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
                             ]"
                         />
+
                         <InputError :message="validationErrors.passport_number || form.errors.passport_number" class="mt-2" />
                     </div>
 
@@ -280,9 +293,11 @@ const submit = () => {
                             type="password"
                             v-model="form.password"
                             autocomplete="new-password"
+                            class="mt-1 block w-full rounded-lg transition text-gray-900 bg-white"
                             :class="[
-                                'mt-1 block w-full rounded-lg transition',
-                                validationErrors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+                                validationErrors.password
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
                             ]"
                         />
                         <InputError :message="validationErrors.password || form.errors.password" class="mt-2" />
@@ -294,9 +309,11 @@ const submit = () => {
                             id="password_confirmation"
                             type="password"
                             v-model="form.password_confirmation"
+                            class="mt-1 block w-full rounded-lg transition text-gray-900 bg-white"
                             :class="[
-                                'mt-1 block w-full rounded-lg transition',
-                                validationErrors.password_confirmation ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
+                                validationErrors.password_confirmation
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'
                             ]"
                         />
                         <InputError :message="validationErrors.password_confirmation || form.errors.password_confirmation" class="mt-2" />
