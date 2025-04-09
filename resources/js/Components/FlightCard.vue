@@ -112,22 +112,24 @@ function calculateDuration(start, end) {
                     <div class="price-label">Price</div>
                     <div class="price-value text-gray-900 dark:text-gray-100 font-bold text-lg">${{ flight.price }}</div>
 
-                    <Link
-                        v-if="canBook"
-                        :href="route('booking.index')"
-                        class="select-button"
-                    >
-                        Book
-                    </Link>
+<!--                    book or login to book button-->
+                    <template v-if="canBook">
+                        <Link
+                            :href="route('booking.index', { flight: flight.id })"
+                            class="select-button"
+                        >
+                            Book
+                        </Link>
+                    </template>
 
-                    <!-- Guest: Link to login with same style -->
-                    <Link
-                        v-else
-                        href="/login"
-                        class="select-button opacity-50 cursor-not-allowed"
-                    >
-                        Login to Book
-                    </Link>
+                    <template v-else>
+                        <Link
+                            href="/login"
+                            class="select-button opacity-50 cursor-not-allowed"
+                        >
+                            Login to Book
+                        </Link>
+                    </template>
                 </div>
             </div>
         </div>
