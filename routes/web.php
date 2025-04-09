@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\PageController;
@@ -103,6 +104,7 @@ Route::middleware('auth')->group(function () {
 //    booking routes
     Route::get('/booking/{flight}', [BookController::class, 'index'])->name('booking.index');
     Route::post('/booking', [BookController::class, 'store'])->name('booking.store');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
 });

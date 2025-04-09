@@ -41,4 +41,5 @@ class Booking extends Model
         return $this->belongsToMany(Addon::class, 'addon_booking');
     }
 
+
 }
