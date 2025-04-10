@@ -45,6 +45,14 @@ defineProps({
                         <p class="text-xl font-bold text-green-600">
                             ${{ (flight.price * 0.88).toFixed(2) }} <span class="text-sm text-gray-500">with 12% off</span>
                         </p>
+                        <div v-if="auth?.user" class="mt-4">
+                            <Link
+                                :href="`/booking/${flight.id}`"
+                                class="inline-block bg-[#22668D] hover:bg-[#419197] text-white px-4 py-2 rounded-md  transition"
+                            >
+                                Book Now
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
