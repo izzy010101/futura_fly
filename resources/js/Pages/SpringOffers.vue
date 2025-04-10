@@ -17,9 +17,18 @@ defineProps({
         <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero section -->
-        <section class="relative">
-            <img src="/images/spring-offer.jpg" alt="Spring Offer" class="w-full h-[60vh] object-cover" />
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-center px-4">
+        <section class="relative h-[60vh]">
+            <picture class="absolute inset-0 w-full h-full z-0">
+                <source srcset="/images/spring-offer-1600.jpg" media="(min-width: 1024px)">
+                <source srcset="/images/spring-offer-800.jpg" media="(min-width: 640px)">
+                <img
+                    src="/images/spring-offer-400.jpg"
+                    alt="Spring Offer"
+                    class="w-full h-full object-cover"
+                />
+            </picture>
+
+            <div class="absolute inset-0 bg-black/40 z-10 flex items-center justify-center text-center px-4">
                 <div class="text-white max-w-3xl">
                     <h1 class="text-4xl md:text-5xl font-bold mb-4">Save 12% on Spring Flights</h1>
                     <p class="text-lg md:text-xl text-gray-200">From March to May, enjoy blooming savings on every spring getaway.</p>
@@ -48,7 +57,7 @@ defineProps({
                         <div v-if="auth?.user" class="mt-4">
                             <Link
                                 :href="`/booking/${flight.id}`"
-                                class="inline-block bg-[#22668D] hover:bg-[#419197] text-white px-4 py-2 rounded-md  transition"
+                                class="inline-block bg-[#22668D] text-white px-4 py-2 rounded-md  hover:bg-[#419197] transition"
                             >
                                 Book Now
                             </Link>

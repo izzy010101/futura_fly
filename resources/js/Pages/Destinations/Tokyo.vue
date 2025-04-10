@@ -20,10 +20,16 @@ const props = defineProps({
         <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero Section -->
-        <section
-            class="relative h-[60vh] bg-cover bg-center flex items-center justify-center text-white"
-            style="background-image: url('/images/tokyo.jpg')"
-        >
+        <section class="relative h-[60vh] flex items-center justify-center text-white">
+            <picture>
+                <source srcset="/images/tokyo-1600.jpg" media="(min-width: 1024px)">
+                <source srcset="/images/tokyo-800.jpg" media="(min-width: 640px)">
+                <img
+                    src="/images/tokyo-400.jpg"
+                    alt="Experience Tokyo"
+                    class="absolute inset-0 w-full h-full object-cover"
+                />
+            </picture>
             <div class="absolute inset-0 bg-black/40"></div>
             <div class="relative z-10 text-center max-w-2xl px-4">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Experience Tokyo</h1>

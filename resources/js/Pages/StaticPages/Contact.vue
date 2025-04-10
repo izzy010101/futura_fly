@@ -10,25 +10,36 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Contact Us"/>
+    <Head title="Contact Us" />
     <div class="bg-gray-50 min-h-screen flex flex-col">
         <HeaderComponent :can-login="canLogin" :can-register="canRegister" />
 
-
-        <!-- Hero Section -->
-        <section class="relative h-[50vh] bg-cover bg-center flex items-center justify-center text-white"
-                 style="background-image: url('/images/contact-hero.jpg')">
-            <div class="absolute inset-0 bg-black/50"></div>
-            <div class="relative z-10 text-center px-4 max-w-2xl">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact FuturaFly</h1>
-                <p class="text-lg text-white/80">Need help or have questions? Our team is here for you.</p>
+        <!-- Hero Section with <img> using srcset -->
+        <section class="relative">
+            <img
+                src="/images/contact-hero-1600.jpg"
+                srcset="
+                  /images/contact-hero-400.jpg 400w,
+                  /images/contact-hero-800.jpg 800w,
+                  /images/contact-hero-1600.jpg 1600w
+                "
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1600px"
+                alt="Contact FuturaFly"
+                class="w-full h-[50vh] object-cover"
+            />
+            <div class="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-4">
+                <div class="text-white max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact FuturaFly</h1>
+                    <p class="text-lg text-white/80">Need help or have questions? Our team is here for you.</p>
+                </div>
             </div>
         </section>
+
 
         <!-- Info Section -->
         <section class="flex-1 max-w-5xl mx-auto px-4 py-16">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <!-- Left: Info -->
+                <!-- Left: Text -->
                 <div>
                     <h2 class="text-2xl font-bold text-[#002642] mb-4">We're here to help</h2>
                     <p class="text-gray-700 mb-4">
@@ -39,12 +50,12 @@ const props = defineProps({
                         We typically respond to messages within 24 hours. For urgent travel inquiries, please call our
                         24/7 hotline.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700">
                         Our headquarters are located in New York City, but we serve passengers worldwide.
                     </p>
                 </div>
 
-                <!-- Right: Contact Details -->
+                <!-- Right: Details Card -->
                 <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
                     <div>
                         <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Customer Service</h3>
@@ -55,12 +66,16 @@ const props = defineProps({
                     <div>
                         <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Email Us</h3>
                         <p class="text-gray-800">support@futurafly.com</p>
-                        <p class="text-gray-600 text-sm">Expect a response within 24 hours.</p>
+                        <p class="text-gray-600 text-sm">Expect a response within 24 hours</p>
                     </div>
 
                     <div>
                         <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Head Office</h3>
-                        <p class="text-gray-800">123 Futura Lane<br />New York, NY 10001<br />United States</p>
+                        <p class="text-gray-800 leading-relaxed">
+                            123 Futura Lane<br />
+                            New York, NY 10001<br />
+                            United States
+                        </p>
                     </div>
                 </div>
             </div>

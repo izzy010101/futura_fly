@@ -1,7 +1,7 @@
 <script setup>
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
-import {Head, Link} from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 
 defineProps({
     auth: Object,
@@ -16,12 +16,22 @@ defineProps({
         <HeaderComponent :auth="auth" :can-login="canLogin" :can-register="canRegister" />
 
         <!-- Hero -->
-        <section class="relative">
-            <img src="/images/berlin.jpg" alt="Berlin" class="w-full h-[65vh] object-cover" />
+        <section class="relative h-[65vh] flex items-center justify-center text-white">
+            <picture>
+                <source srcset="/images/berlin-1600.jpg" media="(min-width: 1024px)">
+                <source srcset="/images/berlin-800.jpg" media="(min-width: 640px)">
+                <img
+                    src="/images/berlin-400.jpg"
+                    alt="Berlin"
+                    class="absolute inset-0 w-full h-full object-cover"
+                />
+            </picture>
             <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-center px-4">
-                <div class="text-white max-w-3xl">
+                <div class="text-white max-w-3xl relative z-10">
                     <h1 class="text-4xl md:text-5xl font-bold mb-4">Berlin</h1>
-                    <p class="text-lg md:text-xl text-gray-200">A city of culture, contrast, and creativity. Explore Berlin’s vibrant history and modern charm.</p>
+                    <p class="text-lg md:text-xl text-gray-200">
+                        A city of culture, contrast, and creativity. Explore Berlin’s vibrant history and modern charm.
+                    </p>
                 </div>
             </div>
         </section>
@@ -40,17 +50,26 @@ defineProps({
                     <li>Enjoy museums, art galleries, and street art</li>
                     <li>Sample authentic currywurst and beer</li>
                 </ul>
-                <Link href="/explore" class="mt-6 inline-block bg-[#22668D] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#419197] transition">Explore More</Link>
+                <Link
+                    href="/explore"
+                    class="mt-6 inline-block bg-[#22668D] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#419197] transition"
+                >
+                    Explore More
+                </Link>
             </div>
 
-            <!-- Image -->
+            <!-- Responsive Image -->
             <div>
-                <img
-                    src="/images/berlin-city.jpg"
-                    loading="lazy"
-                    alt="Berlin Street"
-                    class="rounded-xl shadow-lg w-full object-cover aspect-[4/3]"
-                />
+                <picture>
+                    <source srcset="/images/berlin-city-1600.jpg" media="(min-width: 1024px)">
+                    <source srcset="/images/berlin-city-800.jpg" media="(min-width: 640px)">
+                    <img
+                        src="/images/berlin-city-400.jpg"
+                        loading="lazy"
+                        alt="Berlin Street"
+                        class="rounded-xl shadow-lg w-full object-cover aspect-[4/3]"
+                    />
+                </picture>
             </div>
         </section>
 
