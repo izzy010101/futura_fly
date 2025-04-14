@@ -99,13 +99,13 @@ Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
 
 
 //ovo videti da li ovde da ostavim
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'canBook' => auth()->check(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return Inertia::render('Dashboard', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'canBook' => auth()->check(),
+//    ]);
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
