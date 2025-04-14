@@ -125,9 +125,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/checkout', fn () => Inertia::render('Checkout'))->name('checkout');
 
 
-Route::get('/email/verify', function () {
-    return Inertia::render('Auth/VerifyEmail');
-})->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -139,5 +136,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('status', 'verification-link-sent');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 
 require __DIR__.'/auth.php';
