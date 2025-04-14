@@ -98,16 +98,6 @@ Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
     ->name('password.store');
 
 
-//ovo videti da li ovde da ostavim
-//Route::get('/dashboard', function () {
-//    return Inertia::render('Dashboard', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'canBook' => auth()->check(),
-//    ]);
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
