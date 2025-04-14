@@ -125,6 +125,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/checkout', fn () => Inertia::render('Checkout'))->name('checkout');
 
 
+Route::get('/email/verify', function () {
+    return Inertia::render('Auth/VerifyEmail');
+})->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
