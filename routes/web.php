@@ -24,7 +24,7 @@ Route::get('/upload-image-form', function () {
     return Inertia::render('UploadImage');
 });
 
-
+//flights
 
 Route::get('/', [FlightController::class, 'index'])->name('home');
 Route::get('/explore', [FlightController::class, 'explore'])->name('explore');
@@ -33,23 +33,14 @@ Route::get('/explore', [FlightController::class, 'explore'])->name('explore');
 
 Route::get('/offers', [OffersController::class, 'index'])->name('offers');
 
-Route::get('/stopover', function () {
-    return Inertia::render('Stopover', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-})->name('stopover');
-
-//spring offers 12% discount
+//spring offers 12% discount, ovde dodati logiku da izracuna 12 posto kad odem na book this flight
 Route::get('/springoffers', [OffersController::class, 'spring'])->name('springoffers');
 
-//adds on
-Route::get('/addons', function () {
-    return Inertia::render('AddOns', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-})->name('addons');
+//stopover, addons, checkout
+Route::get('/stopover', [PageController::class, 'stopover'])->name('stopover');
+Route::get('/addons', [PageController::class, 'addons'])->name('addons');
+Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
+
 
 // Destination: New York
 Route::get('/destinations/new-york', function () {
@@ -67,6 +58,8 @@ Route::get('/destinations/berlin', function () {
     ]);
 })->name('destinations.berlin');
 
+//Destionation:Tokyo
+
 Route::get('/destinations/tokyo', function () {
     return Inertia::render('Destinations/Tokyo', [
         'canLogin' => Route::has('login'),
@@ -78,7 +71,7 @@ Route::get('/destinations', [PageController::class, 'destinations'])->name('dest
 
 
 
-//newsletter footer
+//newsletter footer, samo upisujem email u bazu nemam drugu logiku
 Route::post('/subscribe', [NewsletterController::class, 'subscribe']);
 
 
@@ -89,7 +82,8 @@ Route::get('/alerts', [PageController::class, 'alerts'])->name('alerts');
 Route::get('/policies', [PageController::class, 'policies'])->name('policies');
 
 
-Route::post('/validate-email', function (\Illuminate\Http\Request $request) {
+
+Route::post('/validate-email', function (Request $request) {
     $exists = User::where('email', $request->email)->exists();
     return response()->json(['exists' => $exists]);
 });
@@ -98,17 +92,7 @@ Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
     ->name('password.store');
 
 
-//ovo videti da li ovde da ostavim
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'canBook' => auth()->check(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
-
+//logged in user routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -118,24 +102,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/booking', [BookController::class, 'store'])->name('booking.store');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-
 });
-
-
-Route::get('/checkout', fn () => Inertia::render('Checkout'))->name('checkout');
-
-
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/dashboard'); // or wherever you want
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-
-    return back()->with('status', 'verification-link-sent');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 

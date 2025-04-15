@@ -38,6 +38,20 @@ class PageController extends Controller
     {
         return Inertia::render('Destinations', $this->authProps());
     }
+    public function stopover()
+    {
+        return Inertia::render('Stopover', $this->authProps());
+    }
+
+    public function addons()
+    {
+        return Inertia::render('AddOns', $this->authProps());
+    }
+
+    public function checkout()
+    {
+        return Inertia::render('Checkout', $this->authProps());
+    }
 }
 
 
