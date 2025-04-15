@@ -81,11 +81,11 @@ Route::get('/alerts', [PageController::class, 'alerts'])->name('alerts');
 Route::get('/policies', [PageController::class, 'policies'])->name('policies');
 
 
-
+//custom AJAX route used for live email validation
 Route::post('/validate-email', function (Request $request) {
     $exists = User::where('email', $request->email)->exists();
     return response()->json(['exists' => $exists]);
-});
+})->name('custom.verification.notice');
 
 Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
     ->name('password.store');
