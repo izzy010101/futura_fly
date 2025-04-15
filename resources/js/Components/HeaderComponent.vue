@@ -136,8 +136,19 @@ const user = props.auth?.user
 
                 <!-- If logged in -->
                 <template v-else>
-                    <Link :href="route('profile.edit')" class="block text-[#002642] dark:text-gray-100 hover:text-[#22668D]">Profile</Link>
-                    <Link :href="route('logout')" method="post" as="button" class="block text-[#002642] dark:text-gray-100 hover:text-[#22668D]">Log Out</Link>
+                    <Link :href="route('profile.edit')" class="block text-[#002642] dark:text-gray-100 hover:text-[#22668D]">
+                        Profile
+                    </Link>
+
+                    <Link
+                        :href="route('logout')"
+                        method="post"
+                        as="button"
+                        class="block text-[#002642] dark:text-gray-100 hover:text-[#22668D]"
+                        @finish="() => $inertia.visit('/', { replace: true })"
+                    >
+                        Log Out
+                    </Link>
                 </template>
             </div>
         </nav>
