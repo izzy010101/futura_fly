@@ -98,6 +98,17 @@ Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
     ->name('password.store');
 
 
+//ovo videti da li ovde da ostavim
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'canBook' => auth()->check(),
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -112,5 +123,20 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/checkout', fn () => Inertia::render('Checkout'))->name('checkout');
+
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/dashboard'); // or wherever you want
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('status', 'verification-link-sent');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 
 require __DIR__.'/auth.php';
