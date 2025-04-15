@@ -84,13 +84,80 @@ function clearSearch() {
                     class="w-full h-full object-cover"
                 />
             </picture>
-
             <div class="bg-black/60 absolute inset-0"></div>
             <div class="relative z-10 text-center max-w-2xl px-6">
                 <h1 class="text-4xl md:text-5xl font-bold leading-tight">Explore the Skies with FuturaFly</h1>
                 <p class="text-lg mt-4 text-white/80">Book your next journey with comfort, safety, and elegance.</p>
             </div>
         </section>
+
+        <!-- Search Form -->
+        <section class="bg-white shadow-lg -mt-24 z-20 relative rounded-lg max-w-5xl mx-auto p-6 md:p-8">
+            <form @submit.prevent="searchFlights" class="flex flex-wrap md:flex-nowrap gap-4 items-start">
+                <div class="w-full md:w-1/3">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">From</label>
+                    <div class="relative">
+                        <MapPinIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                        <input
+                            v-model="search.departure"
+                            @input="() => validateField('departure')"
+                            @blur="() => validateField('departure')"
+                            type="text"
+                            placeholder="Departure City"
+                            class="pl-10 pr-3 py-2 border rounded-md w-full focus:outline-none transition-all text-gray-800 placeholder-gray-400"
+                            :class="wasSubmitted && validationErrors.departure ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'"
+                        />
+                    </div>
+                    <p class="text-sm text-red-600 mt-1 min-h-[1.25rem]">{{ wasSubmitted ? validationErrors.departure : '' }}</p>
+                </div>
+
+                <div class="w-full md:w-1/3">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+                    <div class="relative">
+                        <MapPinIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                        <input
+                            v-model="search.destination"
+                            @input="() => validateField('destination')"
+                            @blur="() => validateField('destination')"
+                            type="text"
+                            placeholder="Destination City"
+                            class="pl-10 pr-3 py-2 border rounded-md w-full focus:outline-none transition-all text-gray-800 placeholder-gray-400"
+                            :class="wasSubmitted && validationErrors.destination ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#22668D] focus:ring-[#22668D]'"
+                        />
+                    </div>
+                    <p class="text-sm text-red-600 mt-1 min-h-[1.25rem]">{{ wasSubmitted ? validationErrors.destination : '' }}</p>
+                </div>
+
+                <div class="flex flex-col gap-2 w-full md:w-auto md:mt-6">
+                    <button
+                        type="submit"
+                        class="bg-[#22668D] text-white font-semibold px-5 py-2 rounded-md hover:bg-[#419197] transition"
+                    >
+                        Search Flights
+                    </button>
+                    <button
+                        type="button"
+                        class="bg-gray-100 text-[#002642] px-5 py-2 rounded-md hover:bg-gray-200"
+                        @click="clearSearch"
+                    >
+                        Clear
+                    </button>
+                </div>
+            </form>
+        </section>
+
+
+        <!-- Matching Flights -->
+        <section v-if="search.departure || search.destination" class="max-w-7xl mx-auto p-6 mt-8">
+            <h2 class="text-2xl font-bold mb-6 text-[#002642]">Matching Flights</h2>
+
+            <div v-if="flights.length" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FlightCard v-for="flight in flights" :key="flight.id" :flight="flight" :can-book="canBook" />
+            </div>
+
+            <div v-else class="text-gray-500">No matching flights found.</div>
+        </section>
+
 
         <!-- Cards Section -->
         <section class="bg-[#f4f6fb] py-16">
