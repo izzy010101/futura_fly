@@ -9,16 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('addons', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->decimal('price', 8, 2);
-            $table->string('unit')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('addons')) {
+            Schema::create('addons', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->text('description')->nullable();
+                $table->decimal('price', 8, 2);
+                $table->string('unit')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
 
