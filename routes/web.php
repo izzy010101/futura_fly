@@ -70,7 +70,7 @@ Route::get('/destinations', [PageController::class, 'destinations'])->name('dest
 
 
 
-//newsletter footer, samo upisujem email u bazu nemam drugu logiku
+//newsletter footer, for now just putting emails in db
 Route::post('/subscribe', [NewsletterController::class, 'subscribe']);
 
 
