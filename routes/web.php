@@ -100,6 +100,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/{flight}', [BookController::class, 'index'])->name('booking.index');
     Route::post('/booking', [BookController::class, 'store'])->name('booking.store');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::delete('/booking/{booking}', [BookController::class, 'destroy'])->name('booking.cancel');
+
+
 
 });
 

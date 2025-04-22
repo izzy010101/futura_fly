@@ -48,24 +48,15 @@ class BookController extends Controller
 
         $flight = Flight::findOrFail($validated['flight_id']);
 
-        // Apply 12% spring discount if applicable
-        $price = $flight->price;
-        if ($flight->departure_time && Carbon::parse($flight->departure_time)->isBetween('2025-03-01', '2025-05-31')) {
-            $price = round($flight->price * 0.88, 2);
+        $discountedPrice = $flight->price;
+        if ($flight->departure_time && \Carbon\Carbon::parse($flight->departure_time)->isBetween('2025-03-01', '2025-05-31')) {
+            $discountedPrice = round($flight->price * 0.88, 2);
         }
-
-        // Add cost of selected add-ons
-        $addonTotal = 0;
-        if (!empty($validated['addons'])) {
-            $addonTotal = Addon::whereIn('id', $validated['addons'])->sum('price');
-        }
-
-        $totalPrice = round($price + $addonTotal, 2);
 
         $booking = Booking::create([
             'user_id' => auth()->id(),
             'flight_id' => $flight->id,
-            'price' => $totalPrice,
+            'price' => $discountedPrice,
         ]);
 
         if (!empty($validated['addons'])) {
@@ -74,6 +65,28 @@ class BookController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Booking completed successfully!');
     }
+
+
+    public function destroy(Booking $booking)
+    {
+        if ($booking->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $booking->delete();
+
+        // Return fresh Inertia response for dashboard
+        $bookings = Booking::with(['flight', 'addons'])->where('user_id', auth()->id())->latest()->get();
+
+        return Inertia::render('Dashboard', [
+            'bookings' => $bookings,
+            'auth' => [
+                'user' => auth()->user(),
+            ],
+        ]);
+    }
+
+
 
 
 
