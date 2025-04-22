@@ -48,16 +48,24 @@ class BookController extends Controller
 
         $flight = Flight::findOrFail($validated['flight_id']);
 
-        // Spring discount logic (March 1 - May 31)
-        $discountedPrice = $flight->price;
-        if ($flight->departure_time && \Carbon\Carbon::parse($flight->departure_time)->isBetween('2025-03-01', '2025-05-31')) {
-            $discountedPrice = round($flight->price * 0.88, 2); // 12% discount
+        // Apply 12% spring discount if applicable
+        $price = $flight->price;
+        if ($flight->departure_time && Carbon::parse($flight->departure_time)->isBetween('2025-03-01', '2025-05-31')) {
+            $price = round($flight->price * 0.88, 2);
         }
+
+        // Add cost of selected add-ons
+        $addonTotal = 0;
+        if (!empty($validated['addons'])) {
+            $addonTotal = Addon::whereIn('id', $validated['addons'])->sum('price');
+        }
+
+        $totalPrice = round($price + $addonTotal, 2);
 
         $booking = Booking::create([
             'user_id' => auth()->id(),
             'flight_id' => $flight->id,
-            'price' => $discountedPrice,
+            'price' => $totalPrice,
         ]);
 
         if (!empty($validated['addons'])) {
@@ -66,6 +74,7 @@ class BookController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Booking completed successfully!');
     }
+
 
 
 
