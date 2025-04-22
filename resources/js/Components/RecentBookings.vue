@@ -55,7 +55,7 @@ function checkoutBooking(bookingId) {
 </script>
 
 <template>
-    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow">
+    <div>
         <h2 class="text-2xl font-bold mb-4 flex items-center text-[#002642] dark:text-white">
             Recent Bookings
         </h2>
@@ -65,7 +65,7 @@ function checkoutBooking(bookingId) {
                 <div
                     v-for="booking in bookings"
                     :key="booking.id"
-                    class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md border border-gray-100 dark:border-gray-700"
+                    class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 mb-2"
                 >
                     <div class="text-lg font-semibold text-[#002642] dark:text-white">
                         Flight: {{ booking.flight.flight_number }}

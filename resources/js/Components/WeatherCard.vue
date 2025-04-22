@@ -25,6 +25,7 @@ const getWeatherIcon = (code) => {
         71: '🌨️', 95: '⛈️', 99: '🌩️'
     }
     return icons[code] || '❓'
+    // change the ? icon isidora zivota ti
 }
 
 const fetchWeather = async (city) => {
