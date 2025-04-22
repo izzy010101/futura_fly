@@ -46,7 +46,7 @@ defineProps({
                     class="bg-white rounded-2xl shadow-md p-6 transition hover:shadow-lg"
                 >
                     <h3 class="text-lg font-bold text-[#002642] mb-1">{{ flight.departure }} → {{ flight.destination }}</h3>
-                    <p class="text-sm text-gray-500 mb-1">Flight #: {{ flight.flight_number }}</p>
+                    <p class="text-sm text-red-500 mb-1">Flight #: {{ flight.flight_number }}</p>
                     <p class="text-sm text-gray-500 mb-1">Departure: {{ new Date(flight.departure_time).toLocaleDateString() }}</p>
                     <p class="text-sm text-gray-500 mb-1">Seats Available: {{ flight.seats_available }}</p>
                     <div class="mt-3">
