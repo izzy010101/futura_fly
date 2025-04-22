@@ -5,6 +5,8 @@ namespace Database\Factories;
 use App\Models\Flight;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Faker\Factory as Faker;
+
 
 /**
  * @extends Factory<\App\Models\Flight>
