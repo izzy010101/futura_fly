@@ -14,7 +14,7 @@ class AddonSeeder extends Seeder
     {
         Addon::insert([
             ['name' => 'Extra Baggage', 'description' => 'Up to 20kg extra', 'price' => 30, 'unit' => 'per 10kg'],
-            ['name' => 'Seat Selection', 'description' => 'Choose window or aisle', 'price' => 12, 'unit' => ''],
+            ['name' => 'Seat Selection', 'description' => 'Choose window or aisle', 'price' => 12, 'unit' => 'per person'],
             ['name' => 'Premium Meals', 'description' => 'Vegetarian and gluten-free', 'price' => 18, 'unit' => 'per meal'],
             ['name' => 'Airport Lounge Access', 'description' => 'Worldwide access', 'price' => 25, 'unit' => 'per pass'],
             ['name' => 'Fast Track Security', 'description' => 'Priority security lane', 'price' => 15, 'unit' => 'per person'],
