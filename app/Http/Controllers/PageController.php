@@ -48,10 +48,7 @@ class PageController extends Controller
         return Inertia::render('AddOns', $this->authProps());
     }
 
-    public function checkout()
-    {
-        return Inertia::render('Checkout', $this->authProps());
-    }
+
 }
 
 

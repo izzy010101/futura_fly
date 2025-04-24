@@ -38,7 +38,8 @@ Route::get('/springoffers', [OffersController::class, 'spring'])->name('springof
 //stopover, addons, checkout
 Route::get('/stopover', [PageController::class, 'stopover'])->name('stopover');
 Route::get('/addons', [PageController::class, 'addons'])->name('addons');
-Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
+
+
 
 
 // Destination: New York
@@ -101,6 +102,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/booking', [BookController::class, 'store'])->name('booking.store');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::delete('/booking/{booking}', [BookController::class, 'destroy'])->name('booking.cancel');
+    Route::get('/booking/checkout/{booking}', [BookController::class, 'checkout'])->name('booking.checkout');
 
 
 

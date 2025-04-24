@@ -87,8 +87,14 @@ class BookController extends Controller
     }
 
 
-
-
-
+    public function checkout(Booking $booking)
+    {
+        return Inertia::render('Booking/Checkout', [
+            'booking' => $booking,
+            'auth' => [
+                'user' => auth()->user()
+            ],
+        ]);
+    }
 
 }
