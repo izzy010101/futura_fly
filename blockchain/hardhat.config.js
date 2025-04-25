@@ -7,7 +7,7 @@ module.exports = {
         apex: {
             url: 'https://rpc.nexus.testnet.apexfusion.org',
             chainId: 9070,
-            accounts: [`0x${process.env.APEX_PRIVATE_KEY}`],
+            accounts: [`0x${process.env.APEX_PRIVATE_KEY}`],  // Make sure this private key is correct
         },
     },
 };
