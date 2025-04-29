@@ -68,15 +68,17 @@ class BookController extends Controller
         $process->run();
 
         // Check if the process ran successfully
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
+//        if (!$process->isSuccessful()) {
+//            throw new ProcessFailedException($process);
+//        }
 
         // Extract the contract address from the output
         $output = $process->getOutput();
         $matches = [];
         preg_match('/0x[a-fA-F0-9]{40}/', $output, $matches);
         $deployedAddress = $matches[0] ?? null;
+
+
 
         // If the contract address is found, save it in the booking record
         if ($deployedAddress) {

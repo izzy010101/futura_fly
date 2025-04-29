@@ -32,7 +32,7 @@ const submitBooking = () => {
     <Head title="Booking" />
     <HeaderComponent :auth="auth" />
 
-    <div class="max-w-4xl mx-auto p-6 mt-10 bg-white shadow-md rounded-lg">
+    <div class="max-w-4xl mx-auto p-6 mt-10 bg-white shadow-md rounded-lg mb-6">
         <h1 class="text-2xl font-bold text-gray-800 mb-4">Book Your Flight</h1>
 
         <div class="space-y-4 text-gray-700">

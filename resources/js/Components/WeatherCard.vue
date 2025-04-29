@@ -59,14 +59,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-4">Weather at Key Airports</h2>
-        <div v-for="city in displayCities" :key="city.name" class="flex justify-between items-center py-2">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Weather at Key Airports</h2>
+        <div v-for="city in displayCities" :key="city.name" class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700 last:border-none">
             <div>
-                <div class="font-medium">{{ city.name }}</div>
-                <div class="text-sm text-gray-500">Live Weather</div>
+                <div class="font-medium text-gray-800 dark:text-gray-100">{{ city.name }}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">Live Weather</div>
             </div>
-            <div class="text-lg font-semibold flex items-center gap-1">
+            <div class="text-lg font-semibold flex items-center gap-1 text-gray-900 dark:text-white">
                 {{ city.temperature }}°C <span>{{ city.icon }}</span>
             </div>
         </div>

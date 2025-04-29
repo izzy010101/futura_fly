@@ -13,10 +13,11 @@ use App\Models\User;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\PrivilegeClubController;
+
 
 
 //image setup
-
 Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('image.upload');
 
 Route::get('/upload-image-form', function () {
@@ -24,12 +25,11 @@ Route::get('/upload-image-form', function () {
 });
 
 //flights
-
 Route::get('/', [FlightController::class, 'index'])->name('home');
 Route::get('/explore', [FlightController::class, 'explore'])->name('explore');
 
-//static pages from home page
 
+//static pages from home page
 Route::get('/offers', [OffersController::class, 'index'])->name('offers');
 
 //spring offers 12% discount, ovde dodati logiku da izracuna 12 posto kad odem na book this flight
@@ -75,7 +75,7 @@ Route::get('/destinations', [PageController::class, 'destinations'])->name('dest
 Route::post('/subscribe', [NewsletterController::class, 'subscribe']);
 
 
-//contact, faq, policies and travelalerts pages in footer
+//contact, faq, policies and travel_alerts pages in footer
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
 Route::get('/alerts', [PageController::class, 'alerts'])->name('alerts');
@@ -94,6 +94,7 @@ Route::post('/reset-password', [AuthenticatedSessionController::class, 'store'])
 
 //logged in user routes
 Route::middleware('auth')->group(function () {
+//    profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -104,8 +105,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/booking/{booking}', [BookController::class, 'destroy'])->name('booking.cancel');
     Route::get('/booking/checkout/{booking}', [BookController::class, 'checkout'])->name('booking.checkout');
 
-
-
+//    privilege routes
+    Route::get('/privilege', [PrivilegeClubController::class, 'index'])->name('privilege.index');
 });
 
 

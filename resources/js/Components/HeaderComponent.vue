@@ -34,7 +34,7 @@ const user = props.auth?.user
                 <Link href="/" class="hover:text-[#22668D] text-[#002642] dark:text-gray-100">Home</Link>
                 <Link href="/explore" class="hover:text-[#22668D] text-[#002642] dark:text-gray-100">Explore</Link>
                 <Link href="/destinations" class="hover:text-[#22668D] text-[#002642] dark:text-gray-100">Destinations</Link>
-                <Link href="#" class="hover:text-[#22668D] text-[#002642] dark:text-gray-100">Privilege Club</Link>
+                <Link href="/privilege" class="hover:text-[#22668D] text-[#002642] dark:text-gray-100">Privilege Club</Link>
                 <Link
                     v-if="user"
                     href="/dashboard"

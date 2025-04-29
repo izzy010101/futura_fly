@@ -19,8 +19,8 @@ const bookings = page.props.bookings || []
         <!-- weather at airports card -->
         <div>
             <div class="flex items-center gap-2 mb-4">
-                <SunIcon class="w-6 h-6 text-yellow-500"/>
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Weather at Key Airports</h2>
+                <SunIcon class="w-6 h-6 text-yellow-500" />
+                <h2 class="text-xl font-semibold text-gray-800">Weather at Key Airports</h2>
             </div>
             <WeatherCard/>
         </div>

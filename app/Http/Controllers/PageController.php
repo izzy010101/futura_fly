@@ -48,7 +48,6 @@ class PageController extends Controller
         return Inertia::render('AddOns', $this->authProps());
     }
 
-
 }
 
 
