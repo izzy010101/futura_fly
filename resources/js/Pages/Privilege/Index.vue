@@ -1,19 +1,20 @@
 <script setup>
-import { usePage, Head } from '@inertiajs/vue3'
+import {Head, usePage} from '@inertiajs/vue3'
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
 import PrivilegeBanner from '@/Components/PrivilegeBanner.vue'
 import TierTabs from '@/Components/TierTabs.vue'
 
-const auth = usePage().props.auth
+const { props } = usePage()
+const user = props.user
 </script>
 
 <template>
-    <Head title="Privilege Club" />
-    <HeaderComponent :auth="auth" />
+    <Head title="Privilege_Club"/>
+    <HeaderComponent :auth="props.auth" />
 
     <div class="p-8 space-y-6">
-        <PrivilegeBanner />
+        <PrivilegeBanner :user="user" />
         <div class="bg-white dark:bg-gray-900 rounded-xl shadow p-6">
             <TierTabs />
         </div>
@@ -21,4 +22,3 @@ const auth = usePage().props.auth
 
     <Footer />
 </template>
-

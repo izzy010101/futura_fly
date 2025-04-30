@@ -22,7 +22,7 @@ const buyerAddress = ref('')
 const contractAddress = ref('')
 
 if (!escrowAddress) {
-    status.value = "⚠️ No escrow contract address available for this booking.";
+    status.value = "!No escrow contract address available for this booking.";
     console.error("Escrow contract address is not available");
 } else {
     // Only proceed if the escrow address is valid
@@ -47,27 +47,27 @@ const connectWallet = async () => {
                 buyerAddress.value = accounts[0];
                 status.value = `Wallet connected ✅ (${buyerAddress.value})`;
             } else {
-                status.value = '⚠️ No accounts found';
+                status.value = 'No accounts found';
             }
         } else {
-            status.value = '⚠️ Please install MetaMask';
+            status.value = 'Please install MetaMask';
         }
     } catch (err) {
         console.error(err);
-        status.value = `❌ Wallet connection error: ${err.message}`;
+        status.value = `Wallet connection error: ${err.message}`;
     }
 };
 
 const sendCryptoPayment = async () => {
     // Check if buyerAddress is valid before making the payment
     if (!buyerAddress.value) {
-        status.value = "⚠️ Please connect your wallet.";
+        status.value = "Please connect your wallet.";
         return;
     }
 
     // Ensure contract address is available before proceeding
     if (!contractAddress.value) {
-        status.value = "⚠️ No escrow contract address available.";
+        status.value = " No escrow contract address available.";
         return;
     }
 
@@ -80,19 +80,19 @@ const sendCryptoPayment = async () => {
             value: ethers.parseEther('0.05') // Adjust based on your flight price or calculation
         });
 
-        status.value = '⏳ Waiting for transaction confirmation...';
+        status.value = ' Waiting for transaction confirmation...';
         await tx.wait();
-        status.value = '✅ Payment sent successfully!';
+        status.value = ' Payment sent successfully!';
     } catch (err) {
         console.error(err);
-        status.value = `❌ Error: ${err.message}`;
+        status.value = ` Error: ${err.message}`;
     }
 };
 
 const confirmDelivery = async () => {
     // Ensure contract address is available before confirming delivery
     if (!contractAddress.value) {
-        status.value = "⚠️ No escrow contract address available for confirmation.";
+        status.value = "No escrow contract address available for confirmation.";
         return;
     }
 
@@ -102,12 +102,12 @@ const confirmDelivery = async () => {
         const contract = new ethers.Contract(contractAddress.value, escrowABI, signer)
 
         const tx = await contract.confirmDelivery()
-        status.value = '⏳ Confirming delivery...'
+        status.value = 'Confirming delivery...'
         await tx.wait()
-        status.value = '✅ Delivery confirmed and ETH released!'
+        status.value = 'Delivery confirmed and tap3x released!'
     } catch (err) {
         console.error(err)
-        status.value = `❌ Error confirming delivery: ${err.message}`
+        status.value = `Error confirming delivery: ${err.message}`
     }
 }
 </script>

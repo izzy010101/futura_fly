@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Flight;
 use Carbon\Carbon;
+use App\Models\PrivilegeLog;
 
 
 
@@ -51,45 +52,57 @@ class BookController extends Controller
             'addons.*' => 'integer|exists:addons,id',
         ]);
 
-        // Find the flight and calculate the price (apply any discount logic here)
+        // Find the selected flight and get price
         $flight = Flight::findOrFail($validated['flight_id']);
-        $discountedPrice = $flight->price;
+        $discountedPrice = $flight->price; // Optional discount logic can go here
 
-        // Create the booking
+        //  Create the booking
         $booking = Booking::create([
             'user_id' => auth()->id(),
             'flight_id' => $flight->id,
             'price' => $discountedPrice,
         ]);
 
-        // Set the working directory to the blockchain folder and deploy the smart contract
+        // Privilege Club: Award points to the user
+        $multiplier = match (auth()->user()->tier ?? 'Silver') {
+            'Gold' => 1.5,
+            'Platinum' => 2.0,
+            default => 1.0,
+        };
+
+        $earnedPoints = floor($discountedPrice * $multiplier);
+
+        \App\Models\PrivilegeLog::create([
+            'user_id' => auth()->id(),
+            'booking_id' => $booking->id,
+            'points' => $earnedPoints,
+            'type' => 'earned',
+            'note' => 'Earned from booking flight #' . $flight->flight_number,
+        ]);
+
+        //  Deploy Smart Contract for Escrow
         $process = new Process(['npx', 'hardhat', 'run', 'scripts/deploy.js', '--network', 'apex']);
-        $process->setWorkingDirectory(base_path('blockchain')); // Make sure the 'blockchain' folder is specified correctly
+        $process->setWorkingDirectory(base_path('blockchain'));
         $process->run();
 
-        // Check if the process ran successfully
-//        if (!$process->isSuccessful()) {
-//            throw new ProcessFailedException($process);
-//        }
+        //  Uncomment to throw an error if process fails, when fix blockchain part
+//    if (!$process->isSuccessful()) {
+//        throw new \Symfony\Component\Process\Exception\ProcessFailedException($process);
+//    }
 
-        // Extract the contract address from the output
+        // Extract contract address from output
         $output = $process->getOutput();
-        $matches = [];
         preg_match('/0x[a-fA-F0-9]{40}/', $output, $matches);
         $deployedAddress = $matches[0] ?? null;
 
-
-
-        // If the contract address is found, save it in the booking record
+        //  Save contract address if valid
         if ($deployedAddress) {
             $booking->escrow_contract_address = $deployedAddress;
             $booking->save();
         } else {
-            // If no contract address is found, handle the error appropriately
             return redirect()->route('dashboard')->with('error', 'Contract address not found!');
         }
 
-        // Redirect to the dashboard with a success message
         return redirect()->route('dashboard')->with('success', 'Booking completed successfully!');
     }
 
@@ -97,15 +110,35 @@ class BookController extends Controller
 
 
 
+
     public function destroy(Booking $booking)
     {
+        // 1. Ensure user owns the booking
         if ($booking->user_id !== auth()->id()) {
             abort(403, 'Unauthorized');
         }
 
+        // 2. Find and reverse any points earned from this booking
+        $earnedLog = PrivilegeLog::where('booking_id', $booking->id)
+            ->where('user_id', auth()->id())
+            ->where('type', 'earned')
+            ->first();
+
+        if ($earnedLog) {
+            // Log the removal of points
+            PrivilegeLog::create([
+                'user_id' => auth()->id(),
+                'booking_id' => $booking->id,
+                'points' => -$earnedLog->points,
+                'type' => 'removed',
+                'note' => 'Points removed due to cancellation of flight #' . $booking->flight->flight_number,
+            ]);
+        }
+
+        // 3. Cancel the booking
         $booking->delete();
 
-        // Return fresh Inertia response for dashboard
+        // 4. Refresh dashboard view
         $bookings = Booking::with(['flight', 'addons'])->where('user_id', auth()->id())->latest()->get();
 
         return Inertia::render('Dashboard', [
