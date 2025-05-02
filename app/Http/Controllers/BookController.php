@@ -63,6 +63,10 @@ class BookController extends Controller
             'price' => $discountedPrice,
         ]);
 
+        if (!empty($validated['addons'])) {
+            $booking->addons()->attach($validated['addons']);
+        }
+
         // Privilege Club: Award points to the user
         $multiplier = match (auth()->user()->tier ?? 'Silver') {
             'Gold' => 1.5,
