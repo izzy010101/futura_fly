@@ -41,8 +41,6 @@ class BookController extends Controller
     }
 
     // Controller method where the escrow contract address is saved
-
-
     public function store(Request $request)
     {
         // Validate the incoming request
@@ -50,19 +48,26 @@ class BookController extends Controller
             'flight_id' => 'required|exists:flights,id',
             'addons' => 'nullable|array',
             'addons.*' => 'integer|exists:addons,id',
+            'is_spring_offer' => 'nullable|boolean',
         ]);
 
-        // Find the selected flight and get price
+        // Find the selected flight
         $flight = Flight::findOrFail($validated['flight_id']);
-        $discountedPrice = $flight->price; // Optional discount logic can go here
 
-        //  Create the booking
+        // Determine the price based on is_spring_offer flag from frontend
+        $discountedPrice = $flight->price;
+        if (!empty($validated['is_spring_offer'])) {
+            $discountedPrice = round($flight->price * 0.88, 2);
+        }
+
+        // Create the booking
         $booking = Booking::create([
             'user_id' => auth()->id(),
             'flight_id' => $flight->id,
             'price' => $discountedPrice,
         ]);
 
+        // Attach addons if provided
         if (!empty($validated['addons'])) {
             $booking->addons()->attach($validated['addons']);
         }
@@ -84,12 +89,12 @@ class BookController extends Controller
             'note' => 'Earned from booking flight #' . $flight->flight_number,
         ]);
 
-        //  Deploy Smart Contract for Escrow
+        // Deploy Smart Contract for Escrow
         $process = new Process(['npx', 'hardhat', 'run', 'scripts/deploy.js', '--network', 'apex']);
         $process->setWorkingDirectory(base_path('blockchain'));
         $process->run();
 
-        //  Uncomment to throw an error if process fails, when fix blockchain part
+        // Uncomment to throw an error if process fails
 //    if (!$process->isSuccessful()) {
 //        throw new \Symfony\Component\Process\Exception\ProcessFailedException($process);
 //    }
@@ -99,7 +104,7 @@ class BookController extends Controller
         preg_match('/0x[a-fA-F0-9]{40}/', $output, $matches);
         $deployedAddress = $matches[0] ?? null;
 
-        //  Save contract address if valid
+        // Save contract address if valid
         if ($deployedAddress) {
             $booking->escrow_contract_address = $deployedAddress;
             $booking->save();
@@ -109,6 +114,7 @@ class BookController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Booking completed successfully!');
     }
+
 
 
 

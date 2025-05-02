@@ -2,7 +2,6 @@
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 
-
 const props = defineProps({
     bookings: Array,
 })
@@ -17,7 +16,6 @@ function getAddonColorClass(index) {
     ]
     return colors[index % colors.length]
 }
-
 
 const cancelBooking = (bookingId) => {
     Swal.fire({
@@ -48,7 +46,6 @@ const cancelBooking = (bookingId) => {
     })
 }
 
-
 function checkoutBooking(bookingId) {
     router.get(route('booking.checkout', bookingId))
 }
@@ -74,25 +71,51 @@ function checkoutBooking(bookingId) {
                         From {{ booking.flight.departure }} to {{ booking.flight.destination }}<br />
                         Booked on: {{ new Date(booking.created_at).toLocaleString() }}
                     </div>
-                    <div class="mt-2">
-                        <p class="text-gray-800 font-semibold">
-                            ${{ (+booking.price).toFixed(2) }}
-                        </p>
-                    </div>
 
-                    <!-- Addons Labels -->
+                    <!-- Flight price with discount display -->
+                    <p class="text-gray-800 dark:text-gray-100 font-semibold">
+                        Flight Price:
+                        <span v-if="booking.is_discounted" class="line-through text-red-500">
+                            ${{ (+booking.flight.price).toFixed(2) }}
+                        </span>
+                        <span class="ml-2">
+                        ${{ (+booking.price).toFixed(2) }}
+                        </span>
+                        <span v-if="booking.is_discounted" class="ml-2 bg-green-200 text-green-800 px-2 py-0.5 rounded text-xs">
+                        Spring Offer
+                        </span>
+                    </p>
+
+
+                    <!-- Addons Labels with Price -->
                     <div
                         v-if="booking.addons && booking.addons.length"
                         class="mt-3 flex flex-wrap gap-2"
                     >
-            <span
-                v-for="(addon, idx) in booking.addons"
-                :key="idx"
-                class="text-xs font-semibold px-3 py-1 rounded-full inline-block"
-                :class="getAddonColorClass(idx)"
-            >
-              {{ addon.name }}
-            </span>
+                        <div
+                            v-for="(addon, idx) in booking.addons"
+                            :key="idx"
+                            class="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold"
+                            :class="getAddonColorClass(idx)"
+                        >
+                            <span>{{ addon.name }}</span>
+                            <span class="text-gray-700 dark:text-gray-200 text-[11px] font-normal">
+                                (${{ (+addon.price).toFixed(2) }})
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Total price -->
+                    <div class="mt-2">
+                        <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            Total with Add-ons: $
+                            {{
+                                (
+                                    +booking.price +
+                                    booking.addons.reduce((sum, addon) => sum + +addon.price, 0)
+                                ).toFixed(2)
+                            }}
+                        </p>
                     </div>
 
                     <!-- Action Buttons -->
