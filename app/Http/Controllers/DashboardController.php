@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -32,15 +33,13 @@ class DashboardController extends Controller
                         'departure' => $booking->flight->departure,
                         'destination' => $booking->flight->destination,
                     ],
-                    'addons' => $booking->relationLoaded('addons') && $booking->addons
-                        ? $booking->addons->map(function ($addon) {
-                            return [
-                                'id' => $addon->id,
-                                'name' => $addon->name,
-                                'price' => $addon->price,
-                            ];
-                        })->toArray()
-                        : [],
+                    'addons' => $booking->addons->map(function ($addon) {
+                        return [
+                            'id' => $addon->id,
+                            'name' => $addon->name,
+                            'price' => $addon->price,
+                        ];
+                    })->values(), // always send as array, even if empty
                     'is_discounted' => $isSpring && $booking->price < $booking->flight->price,
                     'expected_discounted_price' => $expectedDiscountedPrice,
                 ];
