@@ -19,13 +19,12 @@ class DashboardController extends Controller
             ->latest()
             ->get()
             ->map(function ($booking) use ($now) {
-                \Log::info('Booking addons:', $booking->addons ? $booking->addons->toArray() : []);
                 $isSpring = $now->between(Carbon::parse('2025-03-01'), Carbon::parse('2025-05-31'));
                 $expectedDiscountedPrice = $isSpring ? round($booking->flight->price * 0.88, 2) : $booking->flight->price;
 
                 return [
                     'id' => $booking->id,
-                    'price' => $booking->price, // stored (final) price
+                    'price' => $booking->price, // stored final price
                     'created_at' => $booking->created_at,
                     'flight' => [
                         'id' => $booking->flight->id,
@@ -40,7 +39,7 @@ class DashboardController extends Controller
                             'name' => $addon->name,
                             'price' => $addon->price,
                         ];
-                    }) : collect(),
+                    })->toArray() : [],
                     'is_discounted' => $isSpring && $booking->price < $booking->flight->price,
                     'expected_discounted_price' => $expectedDiscountedPrice,
                 ];
