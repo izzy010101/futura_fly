@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Booking extends Model
 {
@@ -37,7 +38,7 @@ class Booking extends Model
         return $this->hasOne(Payment::class);
     }
 
-    public function addons()
+    public function addons(): BelongsToMany
     {
         return $this->belongsToMany(Addon::class, 'addon_booking');
     }
