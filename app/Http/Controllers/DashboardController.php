@@ -24,22 +24,24 @@ class DashboardController extends Controller
 
                 return [
                     'id' => $booking->id,
-                    'price' => $booking->price, // stored final price
+                    'price' => $booking->price,
                     'created_at' => $booking->created_at,
                     'flight' => [
                         'id' => $booking->flight->id,
                         'flight_number' => $booking->flight->flight_number,
-                        'price' => $booking->flight->price, // original price
+                        'price' => $booking->flight->price,
                         'departure' => $booking->flight->departure,
                         'destination' => $booking->flight->destination,
                     ],
-                    'addons' => $booking->addons->map(function ($addon) {
-                        return [
-                            'id' => $addon->id,
-                            'name' => $addon->name,
-                            'price' => $addon->price,
-                        ];
-                    })->values(), // always send as array, even if empty
+                    'addons' => $booking->addons
+                        ? $booking->addons->map(function ($addon) {
+                            return [
+                                'id' => $addon->id,
+                                'name' => $addon->name,
+                                'price' => $addon->price,
+                            ];
+                        })->values()
+                        : collect(),  // fallback to empty collection
                     'is_discounted' => $isSpring && $booking->price < $booking->flight->price,
                     'expected_discounted_price' => $expectedDiscountedPrice,
                 ];
