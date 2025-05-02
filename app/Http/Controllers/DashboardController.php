@@ -47,6 +47,9 @@ class DashboardController extends Controller
                 ];
             });
 
+        // 🔥 DEBUG LINE → logs to storage/logs/laravel.log
+        Log::info('Bookings payload:', $bookings->toArray());
+
         return Inertia::render('Dashboard', [
             'auth' => [
                 'user' => $user,
