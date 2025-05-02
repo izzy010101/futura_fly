@@ -14,7 +14,6 @@ class DashboardController extends Controller
         $user = auth()->user();
         $now = Carbon::now();
 
-        // Make sure we eager-load addons and flight
         $bookings = Booking::with(['flight', 'addons'])
             ->where('user_id', $user->id)
             ->latest()
@@ -34,13 +33,13 @@ class DashboardController extends Controller
                         'departure' => $booking->flight->departure,
                         'destination' => $booking->flight->destination,
                     ],
-                    'addons' => ($booking->addons ?? collect())->map(function ($addon) {
+                    'addons' => $booking->addons ? $booking->addons->map(function ($addon) {
                         return [
                             'id' => $addon->id,
                             'name' => $addon->name,
                             'price' => $addon->price,
                         ];
-                    }),
+                    }) : collect(),
                     'is_discounted' => $isSpring && $booking->price < $booking->flight->price,
                     'expected_discounted_price' => $expectedDiscountedPrice,
                 ];
