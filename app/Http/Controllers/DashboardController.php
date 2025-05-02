@@ -20,8 +20,6 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($booking) use ($now) {
                 \Log::info('Booking addons:', $booking->addons ? $booking->addons->toArray() : []);
-
-
                 $isSpring = $now->between(Carbon::parse('2025-03-01'), Carbon::parse('2025-05-31'));
                 $expectedDiscountedPrice = $isSpring ? round($booking->flight->price * 0.88, 2) : $booking->flight->price;
 
