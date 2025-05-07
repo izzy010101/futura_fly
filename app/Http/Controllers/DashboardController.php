@@ -33,7 +33,7 @@ class DashboardController extends Controller
                         'departure' => $booking->flight->departure,
                         'destination' => $booking->flight->destination,
                     ],
-                    'addons' => $booking->addons
+                    'addons' => $booking->addons && $booking->addons->count() > 0
                         ? $booking->addons->map(function ($addon) {
                             return [
                                 'id' => $addon->id,
@@ -41,7 +41,7 @@ class DashboardController extends Controller
                                 'price' => $addon->price,
                             ];
                         })->values()
-                        : collect(),  // fallback to empty collection
+                        : [],
                     'is_discounted' => $isSpring && $booking->price < $booking->flight->price,
                     'expected_discounted_price' => $expectedDiscountedPrice,
                 ];
