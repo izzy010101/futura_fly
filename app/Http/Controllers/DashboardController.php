@@ -14,6 +14,7 @@ class DashboardController extends Controller
         $user = auth()->user();
         $now = Carbon::now();
 
+
         $bookings = Booking::with(['flight', 'addons'])
             ->where('user_id', $user->id)
             ->latest()
@@ -40,7 +41,7 @@ class DashboardController extends Controller
                                 'name' => $addon->name,
                                 'price' => $addon->price,
                             ];
-                        })->values()
+                        })->values()->toArray()  // <- This part will convert the collection to a plain array
                         : [],
                     'is_discounted' => $isSpring && $booking->price < $booking->flight->price,
                     'expected_discounted_price' => $expectedDiscountedPrice,
