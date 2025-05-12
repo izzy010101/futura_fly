@@ -1,5 +1,7 @@
 # ✈️ Futurafly
 
+version for grade is valid till 5th od May, everything pushed after that is my practice. Thank you
+
 Futurafly is a modern flight booking web application built with **Laravel 12**, **Vue 3**, and **Inertia.js**.  
 It offers flight search, booking, checkout, seasonal offers, add-ons, and user dashboards — with blockchain payment integration.
 
