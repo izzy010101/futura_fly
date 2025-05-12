@@ -1,74 +1,64 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-
-// Capital cities with airports
-const cities = [
-    { name: 'New York', lat: 40.7128, lon: -74.006 },
-    { name: 'London', lat: 51.5074, lon: -0.1278 },
-    { name: 'Tokyo', lat: 35.6895, lon: 139.6917 },
-    { name: 'Paris', lat: 48.8566, lon: 2.3522 },
-    { name: 'Berlin', lat: 52.52, lon: 13.405 },
-    { name: 'Dubai', lat: 25.276987, lon: 55.296249 },
-    { name: 'Belgrade', lat: 44.7866, lon: 20.4489 },
-    { name: 'Niš', lat: 43.319, lon: 21.896 },
-    { name: 'Munich', lat: 48.1351, lon: 11.5820 },
-]
+import axios from 'axios'
 
 const displayCities = ref([])
-let index = 0
-const cache = new Map()
+const weatherData = ref([])
+const index = ref(0)
+const loading = ref(true)
 
-const getWeatherIcon = (code) => {
-    const icons = {
-        0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
-        45: '🌫️', 48: '🌫️', 51: '🌦️', 61: '🌧️',
-        71: '🌨️', 95: '⛈️', 99: '🌩️'
-    }
-    return icons[code] || '❓'
-    // change the ? icon isidora zivota ti
+const rotateWeather = () => {
+    if (weatherData.value.length === 0) return
+
+    const slice = weatherData.value.slice(index.value, index.value + 3)
+    displayCities.value = slice
+
+    index.value = (index.value + 3) % weatherData.value.length
+
+    const delay = Math.floor(Math.random() * 3000) + 5000 // random between 5000–8000 ms
+    setTimeout(rotateWeather, delay)
 }
 
-const fetchWeather = async (city) => {
-    if (cache.has(city.name)) return cache.get(city.name)
-
-    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true`)
-    const data = await res.json()
-    const weather = {
-        name: city.name,
-        temperature: Math.round(data.current_weather.temperature),
-        weatherCode: data.current_weather.weathercode,
-        icon: getWeatherIcon(data.current_weather.weathercode)
+const fetchWeather = async () => {
+    try {
+        const res = await axios.get('/api/weather')
+        weatherData.value = res.data
+    } catch (error) {
+        console.error('Failed to fetch weather:', error)
+    } finally {
+        loading.value = false
+        rotateWeather()
     }
-
-    cache.set(city.name, weather)
-    return weather
-}
-
-const rotateWeather = async () => {
-    const slice = cities.slice(index, index + 3)
-    const data = await Promise.all(slice.map(fetchWeather))
-    displayCities.value = data
-
-    index = (index + 3) % cities.length
 }
 
 onMounted(() => {
-    rotateWeather()
-    setInterval(rotateWeather, 7200.000) // saljem na dva sata da me ne blokiraju, treba da kesiram pa da saljem jednom dnevno
+    fetchWeather()
 })
 </script>
 
+
+
 <template>
     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Weather at Key Airports</h2>
-        <div v-for="city in displayCities" :key="city.name" class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700 last:border-none">
-            <div>
-                <div class="font-medium text-gray-800 dark:text-gray-100">{{ city.name }}</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400">Live Weather</div>
-            </div>
-            <div class="text-lg font-semibold flex items-center gap-1 text-gray-900 dark:text-white">
-                {{ city.temperature }}°C <span>{{ city.icon }}</span>
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+            Weather at Key Airports
+        </h2>
+
+        <div v-if="loading" class="text-gray-500 dark:text-gray-400">Loading weather data...</div>
+
+        <div v-else>
+            <div v-for="city in displayCities" :key="city.name" class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700 last:border-none">
+                <div>
+                    <div class="font-medium text-gray-800 dark:text-gray-100">{{ city.name }}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">Daily Forecast</div>
+                </div>
+                <div class="text-sm text-gray-800 dark:text-white">
+                    Max: {{ city.max }}°C<br />
+                    Min: {{ city.min }}°C
+                </div>
             </div>
         </div>
     </div>
 </template>
+
+
