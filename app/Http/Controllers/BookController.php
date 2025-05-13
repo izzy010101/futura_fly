@@ -12,11 +12,8 @@ use App\Models\Flight;
 use Carbon\Carbon;
 use App\Models\PrivilegeLog;
 
-
-
 class BookController extends Controller
 {
-
     public function index(Request $request, Flight $flight)
     {
         $addons = Addon::all(['id', 'name', 'description', 'price', 'unit']);
@@ -40,7 +37,6 @@ class BookController extends Controller
         ]);
     }
 
-    // Controller method where the escrow contract address is saved
     public function store(Request $request)
     {
         // Validate the incoming request
@@ -115,20 +111,14 @@ class BookController extends Controller
         return redirect()->route('dashboard')->with('success', 'Booking completed successfully!');
     }
 
-
-
-
-
-
-
     public function destroy(Booking $booking)
     {
-        // 1. Ensure user owns the booking
+        // Ensure user owns the booking
         if ($booking->user_id !== auth()->id()) {
             abort(403, 'Unauthorized');
         }
 
-        // 2. Find and reverse any points earned from this booking
+        // Find and reverse any points earned from this booking
         $earnedLog = PrivilegeLog::where('booking_id', $booking->id)
             ->where('user_id', auth()->id())
             ->where('type', 'earned')
@@ -145,10 +135,10 @@ class BookController extends Controller
             ]);
         }
 
-        // 3. Cancel the booking
+        // Cancel the booking
         $booking->delete();
 
-        // 4. Refresh dashboard view
+        // Refresh dashboard view
         $bookings = Booking::with(['flight', 'addons'])->where('user_id', auth()->id())->latest()->get();
 
         return Inertia::render('Dashboard', [
@@ -159,10 +149,8 @@ class BookController extends Controller
         ]);
     }
 
-
     public function checkout(Booking $booking)
     {
-        // Ensure the contract address is in the data passed to the view
         return Inertia::render('Booking/Checkout', [
             'booking' => $booking->only([
                 'id', 'price', 'escrow_contract_address', 'flight_id', 'created_at', 'updated_at'
@@ -172,6 +160,4 @@ class BookController extends Controller
             ],
         ]);
     }
-
-
 }

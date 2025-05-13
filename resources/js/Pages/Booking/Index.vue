@@ -1,6 +1,6 @@
 <script setup>
-import {ref} from 'vue'
-import {Head, useForm, usePage} from '@inertiajs/vue3'
+import { ref } from 'vue'
+import { Head, useForm, usePage } from '@inertiajs/vue3'
 import HeaderComponent from '@/Components/HeaderComponent.vue'
 import Footer from '@/Components/Footer.vue'
 
